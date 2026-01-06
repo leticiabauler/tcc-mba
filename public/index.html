@@ -1,23 +1,594 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="generator" content="GitLab Pages">
-    <title>Plain HTML site using GitLab Pages</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="navbar">
-      <a href="https://pages.gitlab.io/plain-html/">Plain HTML Example</a>
-      <a href="https://gitlab.com/pages/plain-html/">Repository</a>
-      <a href="https://gitlab.com/pages/">Other Examples</a>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha de Treinamento - Seção</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a1628;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            color: #60a5fa;
+            font-size: 2.8em;
+            font-weight: 300;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+
+        .selection-area {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+        }
+
+        .step {
+            margin-bottom: 40px;
+        }
+
+        .step-title {
+            font-size: 1.1em;
+            color: #cbd5e1;
+            font-weight: 400;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+        }
+
+        .step-number {
+            background: rgba(96, 165, 250, 0.2);
+            color: #60a5fa;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .teams-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .team-btn {
+            padding: 24px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-weight: 400;
+            color: #e2e8f0;
+            text-align: left;
+        }
+
+        .team-btn:hover {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #60a5fa;
+            transform: translateY(-2px);
+        }
+
+        .team-btn.selected {
+            background: rgba(96, 165, 250, 0.15);
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+        }
+
+        .tracks-section, .courses-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tracks-section.active, .courses-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .track-card {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 28px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+        }
+
+        .track-card:hover {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: #60a5fa;
+            transform: translateX(4px);
+        }
+
+        .track-card.selected {
+            background: rgba(96, 165, 250, 0.15);
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+        }
+
+        .track-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .track-icon {
+            font-size: 2.5em;
+            opacity: 0.9;
+        }
+
+        .track-info h3 {
+            font-size: 1.3em;
+            margin-bottom: 6px;
+            font-weight: 400;
+            color: #e2e8f0;
+        }
+
+        .track-info p {
+            font-size: 0.9em;
+            color: #94a3b8;
+            font-weight: 300;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 28px;
+            border-radius: 12px;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            border-color: #60a5fa;
+            box-shadow: 0 8px 24px rgba(96, 165, 250, 0.15);
+        }
+
+        .course-title {
+            font-size: 1.1em;
+            font-weight: 400;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.5;
+        }
+
+        .course-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 400;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+        }
+
+        .course-link:hover {
+            background: #60a5fa;
+            color: #0a1628;
+            transform: translateX(2px);
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 400;
+            margin-bottom: 28px;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .back-btn:hover {
+            background: rgba(148, 163, 184, 0.1);
+            border-color: #94a3b8;
+            color: #e2e8f0;
+        }
+
+        .breadcrumb {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 16px 24px;
+            border-radius: 10px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 300;
+            color: #94a3b8;
+            font-size: 0.95em;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+        }
+
+        .breadcrumb span {
+            color: #60a5fa;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 16px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .selection-area {
+                padding: 24px;
+            }
+
+            .teams-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .track-icon {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Trilha de Treinamento</h1>
+            <p class="subtitle">Selecione sua equipe e trilha de aprendizado</p>
+        </header>
+
+        <div class="selection-area">
+            <div class="step" id="step1">
+                <div class="step-title">
+                    <div class="step-number">1</div>
+                    Equipe
+                </div>
+                <div class="teams-buttons" id="teamsButtons"></div>
+            </div>
+
+            <div class="step tracks-section" id="step2">
+                <button class="back-btn" onclick="backToTeams()">← Voltar</button>
+                <div class="step-title">
+                    <div class="step-number">2</div>
+                    Trilha
+                </div>
+                <div id="tracksContainer"></div>
+            </div>
+
+            <div class="step courses-section" id="step3">
+                <button class="back-btn" onclick="backToTracks()">← Voltar</button>
+                <div class="breadcrumb" id="breadcrumb"></div>
+                <div class="step-title">
+                    <div class="step-number">3</div>
+                    Cursos
+                </div>
+                <div class="courses-grid" id="coursesGrid"></div>
+            </div>
+        </div>
     </div>
 
-    <h1>Hello World!</h1>
+    <script>
+        const teamsData = [
+            {
+                name: "Equipe Alpha",
+                tracks: [
+                    {
+                        id: "erp-backend",
+                        name: "Sistema ERP - Back-end",
+                        icon: "⚙️",
+                        description: "Desenvolvimento back-end para sistema ERP",
+                        courses: [
+                            { name: "Java Spring Boot Avançado", link: "https://www.udemy.com/course/spring-boot" },
+                            { name: "Microserviços com Spring Cloud", link: "https://www.udemy.com/course/microservices-spring" },
+                            { name: "Design Patterns em Java", link: "https://www.udemy.com/course/design-patterns" }
+                        ]
+                    },
+                    {
+                        id: "erp-frontend",
+                        name: "Sistema ERP - Front-end",
+                        icon: "🎨",
+                        description: "Desenvolvimento front-end para sistema ERP",
+                        courses: [
+                            { name: "React Fundamentals", link: "https://react.dev/learn" },
+                            { name: "State Management com Redux", link: "https://redux.js.org/" },
+                            { name: "TypeScript na Prática", link: "https://www.typescriptlang.org/docs/" }
+                        ]
+                    },
+                    {
+                        id: "portal-frontend",
+                        name: "Portal Web - Front-end",
+                        icon: "🌐",
+                        description: "Desenvolvimento do portal web corporativo",
+                        courses: [
+                            { name: "Vue.js 3 Completo", link: "https://vuejs.org/tutorial/" },
+                            { name: "CSS Avançado e Animações", link: "https://web.dev/learn/css" },
+                            { name: "Acessibilidade Web (WCAG)", link: "https://www.w3.org/WAI/WCAG21/quickref/" }
+                        ]
+                    },
+                    {
+                        id: "devops",
+                        name: "DevOps e Infraestrutura",
+                        icon: "🚀",
+                        description: "DevOps para todos os sistemas da equipe",
+                        courses: [
+                            { name: "Docker e Kubernetes", link: "https://kubernetes.io/docs/tutorials/" },
+                            { name: "CI/CD com Jenkins", link: "https://www.jenkins.io/doc/tutorials/" },
+                            { name: "AWS Cloud Practitioner", link: "https://aws.amazon.com/training/" }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Equipe Beta",
+                tracks: [
+                    {
+                        id: "mobile-dev",
+                        name: "App Mobile - Desenvolvimento",
+                        icon: "📱",
+                        description: "Desenvolvimento mobile multiplataforma",
+                        courses: [
+                            { name: "Flutter Completo", link: "https://flutter.dev/learn" },
+                            { name: "React Native", link: "https://reactnative.dev/docs/getting-started" },
+                            { name: "Publicação nas Lojas", link: "https://developer.android.com/studio/publish" }
+                        ]
+                    },
+                    {
+                        id: "mobile-backend",
+                        name: "App Mobile - Back-end",
+                        icon: "🔧",
+                        description: "APIs e serviços para aplicativos mobile",
+                        courses: [
+                            { name: "Node.js e Express", link: "https://expressjs.com/" },
+                            { name: "MongoDB University", link: "https://university.mongodb.com/" },
+                            { name: "APIs RESTful Best Practices", link: "https://restfulapi.net/" }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Equipe Gamma",
+                tracks: [
+                    {
+                        id: "crm-backend",
+                        name: "Sistema CRM - Back-end",
+                        icon: "💼",
+                        description: "Desenvolvimento back-end do CRM",
+                        courses: [
+                            { name: "Python Django Framework", link: "https://docs.djangoproject.com/en/stable/intro/tutorial01/" },
+                            { name: "PostgreSQL Avançado", link: "https://www.postgresql.org/docs/current/tutorial.html" },
+                            { name: "Arquitetura Limpa", link: "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html" }
+                        ]
+                    },
+                    {
+                        id: "crm-frontend",
+                        name: "Sistema CRM - Front-end",
+                        icon: "🖥️",
+                        description: "Interface do usuário para CRM",
+                        courses: [
+                            { name: "Angular 17 Essentials", link: "https://angular.io/tutorial" },
+                            { name: "RxJS na Prática", link: "https://rxjs.dev/guide/overview" },
+                            { name: "Angular Material Design", link: "https://material.angular.io/" }
+                        ]
+                    },
+                    {
+                        id: "analytics-data",
+                        name: "Dashboard Analytics - Dados",
+                        icon: "📊",
+                        description: "Análise e visualização de dados",
+                        courses: [
+                            { name: "SQL Avançado", link: "https://www.sqlcourse.com/advanced/" },
+                            { name: "Power BI Completo", link: "https://learn.microsoft.com/en-us/power-bi/" },
+                            { name: "ETL com Python", link: "https://realpython.com/python-data-engineer/" }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Equipe Delta",
+                tracks: [
+                    {
+                        id: "gateway-backend",
+                        name: "API Gateway - Back-end",
+                        icon: "🔐",
+                        description: "Desenvolvimento de API Gateway",
+                        courses: [
+                            { name: "Go Lang Fundamentals", link: "https://go.dev/tour/" },
+                            { name: "gRPC in Go", link: "https://grpc.io/docs/languages/go/" },
+                            { name: "API Security Best Practices", link: "https://owasp.org/www-project-api-security/" }
+                        ]
+                    },
+                    {
+                        id: "gateway-devops",
+                        name: "API Gateway - DevOps",
+                        icon: "⚡",
+                        description: "Infraestrutura e monitoramento",
+                        courses: [
+                            { name: "Terraform Infrastructure as Code", link: "https://learn.hashicorp.com/terraform" },
+                            { name: "Prometheus & Grafana", link: "https://prometheus.io/docs/introduction/overview/" },
+                            { name: "Nginx Advanced", link: "https://nginx.org/en/docs/" }
+                        ]
+                    }
+                ]
+            }
+        ];
 
-    <p>
-      This is a simple plain-HTML website on GitLab Pages, without any fancy static site generator.
-    </p>
-  </body>
+        let selectedTeam = null;
+        let selectedTrack = null;
+
+        function renderTeams() {
+            const container = document.getElementById('teamsButtons');
+            container.innerHTML = '';
+
+            teamsData.forEach(team => {
+                const btn = document.createElement('button');
+                btn.className = 'team-btn';
+                btn.textContent = team.name;
+                btn.onclick = () => selectTeam(team);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectTeam(team) {
+            selectedTeam = team;
+            selectedTrack = null;
+
+            document.querySelectorAll('.team-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                if (btn.textContent === team.name) {
+                    btn.classList.add('selected');
+                }
+            });
+
+            renderTracks();
+            document.getElementById('step2').classList.add('active');
+            document.getElementById('step3').classList.remove('active');
+        }
+
+        function renderTracks() {
+            const container = document.getElementById('tracksContainer');
+            container.innerHTML = '';
+
+            selectedTeam.tracks.forEach(track => {
+                const trackCard = document.createElement('div');
+                trackCard.className = 'track-card';
+                trackCard.onclick = () => selectTrack(track);
+
+                trackCard.innerHTML = `
+                    <div class="track-header">
+                        <div class="track-icon">${track.icon}</div>
+                        <div class="track-info">
+                            <h3>${track.name}</h3>
+                            <p>${track.description}</p>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(trackCard);
+            });
+        }
+
+        function selectTrack(track) {
+            selectedTrack = track;
+
+            document.querySelectorAll('.track-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            renderCourses();
+            document.getElementById('step3').classList.add('active');
+        }
+
+        function renderCourses() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            breadcrumb.innerHTML = `
+                <span>${selectedTeam.name}</span> / 
+                <span>${selectedTrack.name}</span>
+            `;
+
+            const container = document.getElementById('coursesGrid');
+            container.innerHTML = '';
+
+            selectedTrack.courses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+
+                courseCard.innerHTML = `
+                    <div class="course-title">
+                        ${course.name}
+                    </div>
+                    <a href="${course.link}" target="_blank" class="course-link">
+                        Acessar curso →
+                    </a>
+                `;
+
+                container.appendChild(courseCard);
+            });
+        }
+
+        function backToTeams() {
+            selectedTeam = null;
+            selectedTrack = null;
+            document.querySelectorAll('.team-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.remove('active');
+        }
+
+        function backToTracks() {
+            selectedTrack = null;
+            document.querySelectorAll('.track-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('step3').classList.remove('active');
+        }
+
+        renderTeams();
+    </script>
+</body>
 </html>
-
