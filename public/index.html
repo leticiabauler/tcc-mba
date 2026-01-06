@@ -15,166 +15,220 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #0a1628;
             min-height: 100vh;
-            padding: 40px 20px;
             color: #e2e8f0;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: flex;
+            height: 100vh;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        h1 {
-            color: #60a5fa;
-            font-size: 2.8em;
-            font-weight: 300;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
-        }
-
-        .subtitle {
-            color: #94a3b8;
-            font-size: 1.1em;
-            font-weight: 300;
-        }
-
-        .selection-area {
+        .sidebar {
+            width: 320px;
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(96, 165, 250, 0.1);
+            border-right: 1px solid rgba(96, 165, 250, 0.1);
+            overflow-y: auto;
+            padding: 30px 20px;
+            transition: transform 0.3s ease;
         }
 
-        .step {
-            margin-bottom: 40px;
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+            position: absolute;
+            z-index: 10;
         }
 
-        .step-title {
-            font-size: 1.1em;
-            color: #cbd5e1;
-            font-weight: 400;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.85em;
+        .sidebar-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
         }
 
-        .step-number {
-            background: rgba(96, 165, 250, 0.2);
+        .sidebar-title {
+            font-size: 1.3em;
             color: #60a5fa;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            font-weight: 300;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85em;
+            color: #94a3b8;
+            font-weight: 300;
+        }
+
+        .tree-section {
+            margin-bottom: 10px;
+        }
+
+        .team-item {
+            margin-bottom: 8px;
+        }
+
+        .team-button {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(96, 165, 250, 0.1);
+            border-radius: 8px;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            font-weight: 400;
+            text-align: left;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 0.9em;
+            gap: 10px;
         }
 
-        .teams-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 16px;
-        }
-
-        .team-btn {
-            padding: 24px;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(96, 165, 250, 0.2);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1em;
-            font-weight: 400;
-            color: #e2e8f0;
-            text-align: left;
-        }
-
-        .team-btn:hover {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: #60a5fa;
-            transform: translateY(-2px);
-        }
-
-        .team-btn.selected {
-            background: rgba(96, 165, 250, 0.15);
-            border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
-        }
-
-        .tracks-section, .courses-section {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tracks-section.active, .courses-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .track-card {
-            background: rgba(30, 41, 59, 0.4);
-            padding: 28px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(96, 165, 250, 0.1);
-        }
-
-        .track-card:hover {
+        .team-button:hover {
             background: rgba(30, 41, 59, 0.7);
             border-color: #60a5fa;
+        }
+
+        .team-button.active {
+            background: rgba(96, 165, 250, 0.15);
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .team-icon {
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+        }
+
+        .team-button.active .team-icon {
+            transform: rotate(90deg);
+        }
+
+        .tracks-tree {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .tracks-tree.expanded {
+            max-height: 1000px;
+        }
+
+        .track-item {
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            background: rgba(30, 41, 59, 0.3);
+            border-left: 2px solid rgba(96, 165, 250, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            color: #cbd5e1;
+        }
+
+        .track-item:hover {
+            background: rgba(30, 41, 59, 0.6);
+            border-left-color: #60a5fa;
             transform: translateX(4px);
         }
 
-        .track-card.selected {
+        .track-item.active {
+            background: rgba(96, 165, 250, 0.1);
+            border-left-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .toggle-sidebar-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
             background: rgba(96, 165, 250, 0.15);
-            border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.2);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: #60a5fa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            z-index: 20;
+            transition: all 0.3s ease;
+            display: none;
         }
 
-        .track-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .toggle-sidebar-btn:hover {
+            background: rgba(96, 165, 250, 0.25);
         }
 
-        .track-icon {
+        .toggle-sidebar-btn.show {
+            display: block;
+        }
+
+        .content-header {
+            margin-bottom: 40px;
+        }
+
+        .content-title {
             font-size: 2.5em;
-            opacity: 0.9;
+            color: #60a5fa;
+            font-weight: 300;
+            margin-bottom: 10px;
         }
 
-        .track-info h3 {
-            font-size: 1.3em;
-            margin-bottom: 6px;
-            font-weight: 400;
-            color: #e2e8f0;
+        .content-subtitle {
+            font-size: 1.1em;
+            color: #94a3b8;
+            font-weight: 300;
         }
 
-        .track-info p {
+        .breadcrumb {
+            background: rgba(30, 41, 59, 0.4);
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             font-size: 0.9em;
             color: #94a3b8;
+            border: 1px solid rgba(96, 165, 250, 0.1);
+        }
+
+        .breadcrumb span {
+            color: #60a5fa;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-size: 1.5em;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .empty-text {
+            color: #94a3b8;
+            font-size: 1em;
             font-weight: 300;
         }
 
@@ -190,6 +244,7 @@
             border-radius: 12px;
             border: 1px solid rgba(96, 165, 250, 0.1);
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .course-card:hover {
@@ -198,14 +253,58 @@
             box-shadow: 0 8px 24px rgba(96, 165, 250, 0.15);
         }
 
+        .course-card.onboarding {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .onboarding-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-bottom: 12px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .track-onboarding-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            margin-left: 12px;
+        }
+
+        .course-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: rgba(96, 165, 250, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 0.9em;
+            margin-bottom: 16px;
+        }
+
         .course-title {
-            font-size: 1.1em;
+            font-size: 1.15em;
             font-weight: 400;
             color: #e2e8f0;
             margin-bottom: 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
             line-height: 1.5;
         }
 
@@ -213,13 +312,13 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
+            padding: 11px 22px;
             background: rgba(96, 165, 250, 0.1);
             color: #60a5fa;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 400;
-            font-size: 0.95em;
+            font-size: 0.9em;
             transition: all 0.3s ease;
             border: 1px solid rgba(96, 165, 250, 0.3);
         }
@@ -230,365 +329,358 @@
             transform: translateX(2px);
         }
 
-        .back-btn {
-            background: transparent;
-            color: #94a3b8;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 400;
-            margin-bottom: 28px;
-            transition: all 0.3s ease;
-            font-size: 0.9em;
-        }
-
-        .back-btn:hover {
-            background: rgba(148, 163, 184, 0.1);
-            border-color: #94a3b8;
-            color: #e2e8f0;
-        }
-
-        .breadcrumb {
-            background: rgba(30, 41, 59, 0.4);
-            padding: 16px 24px;
-            border-radius: 10px;
-            margin-bottom: 28px;
+        .track-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-weight: 300;
-            color: #94a3b8;
-            font-size: 0.95em;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding: 24px;
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 12px;
             border: 1px solid rgba(96, 165, 250, 0.1);
         }
 
-        .breadcrumb span {
-            color: #60a5fa;
+        .track-icon-large {
+            font-size: 3em;
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 16px;
+        .track-info h2 {
+            font-size: 1.8em;
+            font-weight: 300;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+        }
+
+        .track-info p {
+            font-size: 1em;
+            color: #94a3b8;
+            font-weight: 300;
+        }
+
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(96, 165, 250, 0.2);
+            border-top-color: #60a5fa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 968px) {
+            .sidebar {
+                position: fixed;
+                z-index: 100;
+                height: 100vh;
             }
 
-            h1 {
+            .sidebar.collapsed {
+                transform: translateX(-100%);
+            }
+
+            .toggle-sidebar-btn {
+                display: block;
+            }
+
+            .main-content {
+                padding: 80px 20px 20px 20px;
+                width: 100%;
+            }
+
+            .content-title {
                 font-size: 2em;
-            }
-
-            .selection-area {
-                padding: 24px;
-            }
-
-            .teams-buttons {
-                grid-template-columns: 1fr;
             }
 
             .courses-grid {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .track-icon {
-                font-size: 2em;
-            }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 41, 59, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(96, 165, 250, 0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(96, 165, 250, 0.5);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Trilha de Treinamento</h1>
-            <p class="subtitle">Selecione sua equipe e trilha de aprendizado</p>
-        </header>
-
-        <div class="selection-area">
-            <div class="step" id="step1">
-                <div class="step-title">
-                    <div class="step-number">1</div>
-                    Equipe
-                </div>
-                <div class="teams-buttons" id="teamsButtons"></div>
+        <button class="toggle-sidebar-btn" id="toggleSidebar" onclick="toggleSidebar()">☰</button>
+        
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Trilhas de Treinamento</div>
+                <div class="sidebar-subtitle">Selecione uma equipe</div>
             </div>
-
-            <div class="step tracks-section" id="step2">
-                <button class="back-btn" onclick="backToTeams()">← Voltar</button>
-                <div class="step-title">
-                    <div class="step-number">2</div>
-                    Trilha
+            <div class="tree-section" id="treeSection">
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <div class="empty-text">Carregando equipes...</div>
                 </div>
-                <div id="tracksContainer"></div>
             </div>
+        </aside>
 
-            <div class="step courses-section" id="step3">
-                <button class="back-btn" onclick="backToTracks()">← Voltar</button>
-                <div class="breadcrumb" id="breadcrumb"></div>
-                <div class="step-title">
-                    <div class="step-number">3</div>
-                    Cursos
-                </div>
-                <div class="courses-grid" id="coursesGrid"></div>
+        <main class="main-content" id="mainContent">
+            <div class="empty-state">
+                <div class="empty-icon">📚</div>
+                <div class="empty-title">Bem-vindo</div>
+                <div class="empty-text">Selecione uma equipe na barra lateral para começar</div>
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
-        const teamsData = [
-            {
-                name: "Equipe Alpha",
-                tracks: [
-                    {
-                        id: "erp-backend",
-                        name: "Sistema ERP - Back-end",
-                        icon: "⚙️",
-                        description: "Desenvolvimento back-end para sistema ERP",
-                        courses: [
-                            { name: "Java Spring Boot Avançado", link: "https://www.udemy.com/course/spring-boot" },
-                            { name: "Microserviços com Spring Cloud", link: "https://www.udemy.com/course/microservices-spring" },
-                            { name: "Design Patterns em Java", link: "https://www.udemy.com/course/design-patterns" }
-                        ]
-                    },
-                    {
-                        id: "erp-frontend",
-                        name: "Sistema ERP - Front-end",
-                        icon: "🎨",
-                        description: "Desenvolvimento front-end para sistema ERP",
-                        courses: [
-                            { name: "React Fundamentals", link: "https://react.dev/learn" },
-                            { name: "State Management com Redux", link: "https://redux.js.org/" },
-                            { name: "TypeScript na Prática", link: "https://www.typescriptlang.org/docs/" }
-                        ]
-                    },
-                    {
-                        id: "portal-frontend",
-                        name: "Portal Web - Front-end",
-                        icon: "🌐",
-                        description: "Desenvolvimento do portal web corporativo",
-                        courses: [
-                            { name: "Vue.js 3 Completo", link: "https://vuejs.org/tutorial/" },
-                            { name: "CSS Avançado e Animações", link: "https://web.dev/learn/css" },
-                            { name: "Acessibilidade Web (WCAG)", link: "https://www.w3.org/WAI/WCAG21/quickref/" }
-                        ]
-                    },
-                    {
-                        id: "devops",
-                        name: "DevOps e Infraestrutura",
-                        icon: "🚀",
-                        description: "DevOps para todos os sistemas da equipe",
-                        courses: [
-                            { name: "Docker e Kubernetes", link: "https://kubernetes.io/docs/tutorials/" },
-                            { name: "CI/CD com Jenkins", link: "https://www.jenkins.io/doc/tutorials/" },
-                            { name: "AWS Cloud Practitioner", link: "https://aws.amazon.com/training/" }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: "Equipe Beta",
-                tracks: [
-                    {
-                        id: "mobile-dev",
-                        name: "App Mobile - Desenvolvimento",
-                        icon: "📱",
-                        description: "Desenvolvimento mobile multiplataforma",
-                        courses: [
-                            { name: "Flutter Completo", link: "https://flutter.dev/learn" },
-                            { name: "React Native", link: "https://reactnative.dev/docs/getting-started" },
-                            { name: "Publicação nas Lojas", link: "https://developer.android.com/studio/publish" }
-                        ]
-                    },
-                    {
-                        id: "mobile-backend",
-                        name: "App Mobile - Back-end",
-                        icon: "🔧",
-                        description: "APIs e serviços para aplicativos mobile",
-                        courses: [
-                            { name: "Node.js e Express", link: "https://expressjs.com/" },
-                            { name: "MongoDB University", link: "https://university.mongodb.com/" },
-                            { name: "APIs RESTful Best Practices", link: "https://restfulapi.net/" }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: "Equipe Gamma",
-                tracks: [
-                    {
-                        id: "crm-backend",
-                        name: "Sistema CRM - Back-end",
-                        icon: "💼",
-                        description: "Desenvolvimento back-end do CRM",
-                        courses: [
-                            { name: "Python Django Framework", link: "https://docs.djangoproject.com/en/stable/intro/tutorial01/" },
-                            { name: "PostgreSQL Avançado", link: "https://www.postgresql.org/docs/current/tutorial.html" },
-                            { name: "Arquitetura Limpa", link: "https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html" }
-                        ]
-                    },
-                    {
-                        id: "crm-frontend",
-                        name: "Sistema CRM - Front-end",
-                        icon: "🖥️",
-                        description: "Interface do usuário para CRM",
-                        courses: [
-                            { name: "Angular 17 Essentials", link: "https://angular.io/tutorial" },
-                            { name: "RxJS na Prática", link: "https://rxjs.dev/guide/overview" },
-                            { name: "Angular Material Design", link: "https://material.angular.io/" }
-                        ]
-                    },
-                    {
-                        id: "analytics-data",
-                        name: "Dashboard Analytics - Dados",
-                        icon: "📊",
-                        description: "Análise e visualização de dados",
-                        courses: [
-                            { name: "SQL Avançado", link: "https://www.sqlcourse.com/advanced/" },
-                            { name: "Power BI Completo", link: "https://learn.microsoft.com/en-us/power-bi/" },
-                            { name: "ETL com Python", link: "https://realpython.com/python-data-engineer/" }
-                        ]
-                    }
-                ]
-            },
-            {
-                name: "Equipe Delta",
-                tracks: [
-                    {
-                        id: "gateway-backend",
-                        name: "API Gateway - Back-end",
-                        icon: "🔐",
-                        description: "Desenvolvimento de API Gateway",
-                        courses: [
-                            { name: "Go Lang Fundamentals", link: "https://go.dev/tour/" },
-                            { name: "gRPC in Go", link: "https://grpc.io/docs/languages/go/" },
-                            { name: "API Security Best Practices", link: "https://owasp.org/www-project-api-security/" }
-                        ]
-                    },
-                    {
-                        id: "gateway-devops",
-                        name: "API Gateway - DevOps",
-                        icon: "⚡",
-                        description: "Infraestrutura e monitoramento",
-                        courses: [
-                            { name: "Terraform Infrastructure as Code", link: "https://learn.hashicorp.com/terraform" },
-                            { name: "Prometheus & Grafana", link: "https://prometheus.io/docs/introduction/overview/" },
-                            { name: "Nginx Advanced", link: "https://nginx.org/en/docs/" }
-                        ]
-                    }
-                ]
-            }
-        ];
-
+        let teamsData = [];
         let selectedTeam = null;
         let selectedTrack = null;
 
-        function renderTeams() {
-            const container = document.getElementById('teamsButtons');
-            container.innerHTML = '';
+        // Lista de arquivos de equipes - adicione aqui quando criar novos arquivos
+        const teamFiles = [
+            'teams/qualidade.json'
+            // Adicione mais arquivos aqui conforme necessário
+            // 'public/teams/outra-equipe.json',
+        ];
 
-            teamsData.forEach(team => {
-                const btn = document.createElement('button');
-                btn.className = 'team-btn';
-                btn.textContent = team.name;
-                btn.onclick = () => selectTeam(team);
-                container.appendChild(btn);
-            });
-        }
+        async function loadTeams() {
+            try {
+                const promises = teamFiles.map(file => 
+                    fetch(file)
+                        .then(response => {
+                            if (!response.ok) throw new Error(`Erro ao carregar ${file}`);
+                            return response.json();
+                        })
+                        .catch(error => {
+                            console.warn(`Arquivo ${file} não encontrado, pulando...`);
+                            return null;
+                        })
+                );
 
-        function selectTeam(team) {
-            selectedTeam = team;
-            selectedTrack = null;
+                const results = await Promise.all(promises);
+                teamsData = results.filter(team => team !== null);
 
-            document.querySelectorAll('.team-btn').forEach(btn => {
-                btn.classList.remove('selected');
-                if (btn.textContent === team.name) {
-                    btn.classList.add('selected');
+                if (teamsData.length === 0) {
+                    showError('Nenhuma equipe encontrada. Verifique a pasta teams/');
+                } else {
+                    renderTree();
                 }
-            });
-
-            renderTracks();
-            document.getElementById('step2').classList.add('active');
-            document.getElementById('step3').classList.remove('active');
+            } catch (error) {
+                console.error('Erro ao carregar equipes:', error);
+                showError('Erro ao carregar as equipes');
+            }
         }
 
-        function renderTracks() {
-            const container = document.getElementById('tracksContainer');
+        function showError(message) {
+            const container = document.getElementById('treeSection');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">⚠️</div>
+                    <div class="empty-text">${message}</div>
+                </div>
+            `;
+        }
+
+        function renderTree() {
+            const container = document.getElementById('treeSection');
             container.innerHTML = '';
 
-            selectedTeam.tracks.forEach(track => {
-                const trackCard = document.createElement('div');
-                trackCard.className = 'track-card';
-                trackCard.onclick = () => selectTrack(track);
+            teamsData.forEach((team, teamIndex) => {
+                const teamItem = document.createElement('div');
+                teamItem.className = 'team-item';
 
-                trackCard.innerHTML = `
-                    <div class="track-header">
-                        <div class="track-icon">${track.icon}</div>
-                        <div class="track-info">
-                            <h3>${track.name}</h3>
-                            <p>${track.description}</p>
-                        </div>
-                    </div>
+                const teamButton = document.createElement('button');
+                teamButton.className = 'team-button';
+                teamButton.innerHTML = `
+                    <span class="team-icon">▶</span>
+                    ${team.name}
                 `;
+                teamButton.onclick = () => toggleTeam(team, teamIndex);
 
-                container.appendChild(trackCard);
+                const tracksTree = document.createElement('div');
+                tracksTree.className = 'tracks-tree';
+                tracksTree.id = `tracks-${teamIndex}`;
+
+                team.tracks.forEach(track => {
+                    const trackItem = document.createElement('div');
+                    trackItem.className = 'track-item';
+                    
+                    let trackText = track.name;
+                    if (track.onboarding) {
+                        trackText = `🚩 ${track.name}`;
+                    }
+                    
+                    trackItem.textContent = trackText;
+                    trackItem.onclick = (e) => {
+                        e.stopPropagation();
+                        selectTrack(team, track);
+                    };
+                    tracksTree.appendChild(trackItem);
+                });
+
+                teamItem.appendChild(teamButton);
+                teamItem.appendChild(tracksTree);
+                container.appendChild(teamItem);
             });
         }
 
-        function selectTrack(track) {
+        function toggleTeam(team, teamIndex) {
+            const teamButtons = document.querySelectorAll('.team-button');
+            const currentButton = teamButtons[teamIndex];
+            const tracksTree = document.getElementById(`tracks-${teamIndex}`);
+
+            if (currentButton.classList.contains('active')) {
+                currentButton.classList.remove('active');
+                tracksTree.classList.remove('expanded');
+                selectedTeam = null;
+                showEmptyState();
+            } else {
+                teamButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tracks-tree').forEach(tree => tree.classList.remove('expanded'));
+                
+                currentButton.classList.add('active');
+                tracksTree.classList.add('expanded');
+                selectedTeam = team;
+            }
+        }
+
+        function selectTrack(team, track) {
+            selectedTeam = team;
             selectedTrack = track;
 
-            document.querySelectorAll('.track-card').forEach(card => {
-                card.classList.remove('selected');
+            document.querySelectorAll('.track-item').forEach(item => {
+                item.classList.remove('active');
             });
-            event.currentTarget.classList.add('selected');
+            event.target.classList.add('active');
+
+            // Fecha o menu lateral em telas pequenas
+            if (window.innerWidth <= 968) {
+                toggleSidebar();
+            }
 
             renderCourses();
-            document.getElementById('step3').classList.add('active');
         }
 
         function renderCourses() {
-            const breadcrumb = document.getElementById('breadcrumb');
-            breadcrumb.innerHTML = `
-                <span>${selectedTeam.name}</span> / 
-                <span>${selectedTrack.name}</span>
+            const mainContent = document.getElementById('mainContent');
+            
+            let onboardingBadge = '';
+            if (selectedTrack.onboarding) {
+                onboardingBadge = '<span class="track-onboarding-badge">🚩 Obrigatório para Onboarding</span>';
+            }
+            
+            mainContent.innerHTML = `
+                <div class="breadcrumb">
+                    <span>${selectedTeam.name}</span> / <span>${selectedTrack.name}</span>
+                </div>
+
+                <div class="track-header">
+                    <div class="track-icon-large">${selectedTrack.icon}</div>
+                    <div class="track-info">
+                        <h2>${selectedTrack.name} ${onboardingBadge}</h2>
+                        <p>${selectedTrack.description}</p>
+                    </div>
+                </div>
+
+                <div class="courses-grid" id="coursesGrid"></div>
             `;
 
-            const container = document.getElementById('coursesGrid');
-            container.innerHTML = '';
-
-            selectedTrack.courses.forEach(course => {
+            const coursesGrid = document.getElementById('coursesGrid');
+            
+            selectedTrack.courses.forEach((course, index) => {
                 const courseCard = document.createElement('div');
                 courseCard.className = 'course-card';
+                
+                if (course.onboarding) {
+                    courseCard.classList.add('onboarding');
+                }
+
+                let onboardingBadgeHtml = '';
+                if (course.onboarding) {
+                    onboardingBadgeHtml = '<div class="onboarding-badge">🚩 Obrigatório para Onboarding</div>';
+                }
 
                 courseCard.innerHTML = `
-                    <div class="course-title">
-                        ${course.name}
-                    </div>
+                    <div class="course-number">${index + 1}</div>
+                    ${onboardingBadgeHtml}
+                    <div class="course-title">${course.name}</div>
                     <a href="${course.link}" target="_blank" class="course-link">
                         Acessar curso →
                     </a>
                 `;
 
-                container.appendChild(courseCard);
+                coursesGrid.appendChild(courseCard);
             });
         }
 
-        function backToTeams() {
-            selectedTeam = null;
-            selectedTrack = null;
-            document.querySelectorAll('.team-btn').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            document.getElementById('step2').classList.remove('active');
-            document.getElementById('step3').classList.remove('active');
+        function showEmptyState() {
+            const mainContent = document.getElementById('mainContent');
+            mainContent.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📚</div>
+                    <div class="empty-title">Bem-vindo</div>
+                    <div class="empty-text">Selecione uma equipe na barra lateral para começar</div>
+                </div>
+            `;
         }
 
-        function backToTracks() {
-            selectedTrack = null;
-            document.querySelectorAll('.track-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            document.getElementById('step3').classList.remove('active');
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggleSidebar');
+            
+            sidebar.classList.toggle('collapsed');
+            toggleBtn.classList.toggle('show');
         }
 
-        renderTeams();
+        // Inicializa carregando as equipes
+        loadTeams();
     </script>
 </body>
 </html>
+
+<!-- 
+INSTRUÇÕES DE USO:
+
+1. Estrutura de pastas necessária:
+   /
+   ├── index.html (este arquivo)
+   ├── DOCUMENTACAO.md (arquivo de exemplo/documentação)
+   └── teams/
+       ├── equipe-alpha.json
+       ├── equipe-beta.json
+       ├── equipe-gamma.json
+       └── equipe-delta.json
+
+2. Para adicionar uma nova equipe:
+   - Crie um novo arquivo JSON na pasta teams/
+   - Adicione o nome do arquivo no array teamFiles (linha 382)
+   - Siga o formato dos arquivos de exemplo
+
+3. Recursos:
+   - Carregamento automático de todos os arquivos JSON
+   - Menu lateral que fecha ao selecionar uma trilha (mobile)
+   - Responsivo para desktop e mobile
+   - Toggle do menu lateral em dispositivos móveis
+-->

@@ -1,0 +1,148 @@
+{
+    "name": "Qualidade",
+    "tracks": [
+        {
+            "id": "labview",
+            "name": "LabVIEW",
+            "icon": "",
+            "description": "Desenvolvimento de software com LabVIEW",
+            "onboarding": true,
+            "courses": [
+                {
+                    "name": "LabVIEW Core 1",
+                    "link": "https://learn.ni.com/learn/learning-path/labview-core-1",
+                    "onboarding": true
+                },
+                {
+                    "name": "LabVIEW Core 2",
+                    "link": "https://learn.ni.com/learn/learning-path/labview-core-2-course",
+                    "onboarding": true
+                },
+                {
+                    "name": "LabVIEW Core 3",
+                    "link": "https://learn.ni.com/learn/learning-path/labview-core-3-2016-english",
+                    "onboarding": true
+                },
+                {
+                    "name": "Data acqusition using NI DaqMX and LabVIEW",
+                    "link": "https://learn.ni.com/learn/learning-path/data-acquisition-using-ni-daqmx-and-labview-english-1"
+                },
+                {
+                    "name": "Hil fundamentals using veristand",
+                    "link": "https://learn.ni.com/learning-paths/hil-fundamentals-using-veristand"
+                },
+                {
+                    "name": "Continuous Integration",
+                    "link": "https://learn.ni.com/learning-paths/continuous-integration"
+                },
+                {
+                    "name": "Object-Oriented Design and Programming in LabVIEW",
+                    "link": "https://learn.ni.com/learn/learning-path/object-oriented-design-and-programming-in-labview-oop"
+                },
+                {
+                    "name": "Project Management",
+                    "link": "https://learn.ni.com/learning-paths/project-management"
+                },
+                {
+                    "name": "Requirements Gathering",
+                    "link": "https://learn.ni.com/learning-paths/requirements"
+                }
+            ]
+        },
+        {
+            "id": "git",
+            "name": "Git",
+            "icon": "",
+            "description": "Gitlab",
+            "onboarding": true,
+            "courses": [
+                {
+                    "name": "Documentação Git",
+                    "link": "https://git-scm.com/docs",
+                    "onboarding": true
+                },
+                {
+                    "name": "Curso de Git - O que é um Sistema de Controle de Versão",
+                    "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
+                    "onboarding": true
+                }
+            ]
+        },
+        {
+            "id": "data-base",
+            "name": "Banco de dados",
+            "onboarding": true,
+            "icon": "",
+            "description": "Banco de dados Postgres SQL",
+            "courses": [
+                {
+                    "name": "Banco de dados Postgres",
+                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20"
+                }
+            ]
+        },
+        {
+            "id": "http-method",
+            "name": "Método HTTP",
+            "onboarding": true,
+            "icon": "",
+            "description": "Métodos HTTP (GET, POST, PUT, DELETE, PATCH, etc.)",
+            "courses": [
+                {
+                    "name": "Documentação HTTP",
+                    "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP"
+                },
+                {
+                    "name": "Protocolo HTTP",
+                    "link": "https://www.youtube.com/watch?v=e5OS6EPnN3w&list=PLx6gdu4s3nkceYGr8i4H0necTuN_gx8H_"
+                }
+            ]
+        },
+        {
+            "id": "communication-protocols",
+            "name": "Protocolos de comunicação",
+            "onboarding": true,
+            "icon": "",
+            "description": "Protocolos de comunicação com equipamentos HTTP (GET, POST, PUT, DELETE, PATCH, etc.)",
+            "courses": [
+                {
+                    "name": "TCP/IP",
+                    "link": "https://www.youtube.com/watch?v=KQvVXDiGBYY"
+                },
+                {
+                    "name": "GPIB",
+                    "link": "https://www.youtube.com/watch?v=HEFFz_cho2s"
+                },
+                {
+                    "name": "Modbus",
+                    "link": "https://www.youtube.com/watch?v=xRafQNH66dY"
+                }
+            ]
+        },
+        {
+            "id": "transformers",
+            "name": "Transformadores",
+            "onboarding": true,
+            "icon": "",
+            "description": "Cursos sobre os transformadores WEG",
+            "courses": [
+                {
+                    "name": "DT-11 - Transformadores",
+                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-11%20Transformadores?csf=1&web=1&e=rWvKAQ"
+                },
+                {
+                    "name": "DT-20 - Seccionadores",
+                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-20%20Secionadores?csf=1&web=1&e=Vsv3Fa"
+                },
+                {
+                    "name": "DT-21 - Subestações",
+                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-21%20Subesta%C3%A7%C3%B5es?csf=1&web=1&e=0ozI59"
+                },
+                {
+                    "name": "DT-35 - TPs e TCs (Balteau)",
+                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-35%20TP%20e%20TC%20Balteau?csf=1&web=1&e=dGUlXg"
+                }
+            ]
+        }
+    ]
+}
