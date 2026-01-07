@@ -2,35 +2,44 @@
     "name": "Produtos Digitais",
     "tracks": [
         {
-            "id": "pdi-produtos-digitais-data-base",
-            "name": "Banco de dados",
+            "id": "pdi-produtos-digitais-back-end",
+            "name": "Back-End",
             "onboarding": true,
             "icon": "",
-            "description": "Banco de dados Postgres SQL",
+            "description": "Cursos recomendados para capacitação em back-end",
             "courses": [
                 {
-                    "name": "Banco de dados Postgres",
-                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
+                    "name": "JavaScript",
+                    "description": "Conhecimentos básico e intermediário da linguagem",
+                    "time": "",
                     "onboarding": true
+                },
+                {
+                    "name": "Python",
+                    "description": "Conhecimento avançado da linguagem",
+                    "time": "",
+                    "onboarding": true
+                },
+                {
+                    "name": "Rust",
+                    "description": "Conhecimento para migração da linguagem da plataforma",
+                    "time": ""
                 }
             ]
         },
         {
-            "id": "pdi-produtos-digitais-git",
-            "name": "Git",
-            "icon": "",
-            "description": "Gitlab",
+            "id": "pdi-produtos-digitais-front-end",
+            "name": "Front-End",
             "onboarding": true,
+            "icon": "",
+            "description": "Cursos recomendados para capacitação em front-end",
             "courses": [
                 {
-                    "name": "Documentação Git",
-                    "link": "https://git-scm.com/docs",
-                    "onboarding": true
-                },
-                {
-                    "name": "Curso de Git - O que é um Sistema de Controle de Versão",
-                    "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
-                    "onboarding": true
+                    "name": "React",
+                    "description": "Curso rápido de React",
+                    "link": "https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiS3vCvxPmRAxUwrJUCHflEMoEQtwJ6BAgUEAI&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D2RWsLmu8yVc&usg=AOvVaw0MvGpI7HYEC6Aq3V_FtU2M&opi=89978449",
+                    "onboarding": true,
+                    "time": "2h 30m"
                 }
             ]
         }
