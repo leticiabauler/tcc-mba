@@ -30,14 +30,6 @@
                     "onboarding": true
                 },
                 {
-                    "name": "Data acqusition using NI DaqMX and LabVIEW",
-                    "link": "https://learn.ni.com/learn/learning-path/data-acquisition-using-ni-daqmx-and-labview-english-1"
-                },
-                {
-                    "name": "Hil fundamentals using veristand",
-                    "link": "https://learn.ni.com/learning-paths/hil-fundamentals-using-veristand"
-                },
-                {
                     "name": "Continuous Integration",
                     "link": "https://learn.ni.com/learning-paths/continuous-integration"
                 },
@@ -48,6 +40,14 @@
                 {
                     "name": "Project Management",
                     "link": "https://learn.ni.com/learning-paths/project-management"
+                },
+                {
+                    "name": "Data acqusition using NI DaqMX and LabVIEW",
+                    "link": "https://learn.ni.com/learn/learning-path/data-acquisition-using-ni-daqmx-and-labview-english-1"
+                },
+                {
+                    "name": "Hil fundamentals using veristand",
+                    "link": "https://learn.ni.com/learning-paths/hil-fundamentals-using-veristand"
                 },
                 {
                     "name": "Requirements Gathering",
@@ -61,16 +61,16 @@
             "icon": "",
             "description": "Funcionalidades, comandos e utilização do Git",
             "onboarding": true,
-            "courses": [
-                {
-                    "name": "Documentação Git",
-                    "link": "https://git-scm.com/docs",
-                    "buttonText": "Acessar documentação"
-                },
+            "courses": [                
                 {
                     "name": "Curso de Git - O que é um Sistema de Controle de Versão",
                     "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
                     "onboarding": true
+                },
+                {
+                    "name": "Documentação Git",
+                    "link": "https://git-scm.com/docs",
+                    "buttonText": "Acessar documentação"
                 }
             ]
         },
@@ -96,15 +96,16 @@
             "description": "Métodos HTTP (GET, POST, PUT, DELETE, PATCH, etc.)",
             "courses": [
                 {
-                    "name": "Documentação HTTP",
-                    "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP",
-                    "buttonText": "Acessar documentação"
-                },
-                {
                     "name": "Protocolo HTTP",
                     "link": "https://www.youtube.com/watch?v=e5OS6EPnN3w&list=PLx6gdu4s3nkceYGr8i4H0necTuN_gx8H_",
                     "onboarding": true
+                },
+                {
+                    "name": "Documentação HTTP",
+                    "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP",
+                    "buttonText": "Acessar documentação"
                 }
+                
             ]
         },
         {
