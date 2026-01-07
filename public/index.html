@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WTD - Trilhas de Treinamento</title>
-    <!-- Adicionando o ícone de livro -->
+    <title>WTD - Trilhas de treinamento</title>
     <link rel="icon" href="weg_icon.png" type="image/png">
     <style>
         * {
@@ -26,7 +25,7 @@
         }
 
         .sidebar {
-            width: 320px;
+            width: 340px;
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(10px);
             border-right: 1px solid rgba(96, 165, 250, 0.1);
@@ -62,6 +61,59 @@
 
         .tree-section {
             margin-bottom: 10px;
+        }
+
+        .area-item {
+            margin-bottom: 12px;
+        }
+
+        .area-button {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 8px;
+            color: #60a5fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            font-weight: 500;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .area-button:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+        }
+
+        .area-button.active {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.2);
+        }
+
+        .area-icon {
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+        }
+
+        .area-button.active .area-icon {
+            transform: rotate(90deg);
+        }
+
+        .teams-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            margin-left: 15px;
+            margin-top: 8px;
+        }
+
+        .teams-container.expanded {
+            max-height: 2000px;
         }
 
         .team-item {
@@ -172,23 +224,6 @@
             display: block;
         }
 
-        .content-header {
-            margin-bottom: 40px;
-        }
-
-        .content-title {
-            font-size: 2.5em;
-            color: #60a5fa;
-            font-weight: 300;
-            margin-bottom: 10px;
-        }
-
-        .content-subtitle {
-            font-size: 1.1em;
-            color: #94a3b8;
-            font-weight: 300;
-        }
-
         .breadcrumb {
             background: rgba(30, 41, 59, 0.4);
             padding: 12px 20px;
@@ -277,11 +312,11 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 8px 14px;
+            padding: 8px 12px;
             background: rgba(245, 158, 11, 0.15);
             color: #fbbf24;
             border-radius: 8px;
-            font-size: 0.85em;
+            font-size: 0.6em;
             font-weight: 500;
             border: 1px solid rgba(245, 158, 11, 0.3);
             margin-left: 12px;
@@ -402,10 +437,6 @@
                 width: 100%;
             }
 
-            .content-title {
-                font-size: 2em;
-            }
-
             .courses-grid {
                 grid-template-columns: 1fr;
             }
@@ -435,13 +466,13 @@
         
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-title">Trilhas de Treinamento</div>
-                <div class="sidebar-subtitle">Selecione uma equipe</div>
+                <div class="sidebar-title">Trilhas de treinamento</div>
+                <div class="sidebar-subtitle">Selecione uma área</div>
             </div>
             <div class="tree-section" id="treeSection">
                 <div class="loading-state">
                     <div class="loading-spinner"></div>
-                    <div class="empty-text">Carregando equipes...</div>
+                    <div class="empty-text">Carregando áreas...</div>
                 </div>
             </div>
         </aside>
@@ -450,53 +481,79 @@
             <div class="empty-state">
                 <div class="empty-icon">📚</div>
                 <div class="empty-title">Bem-vindo</div>
-                <div class="empty-text">Selecione uma equipe na barra lateral para começar</div>
+                <div class="empty-text">Selecione uma área na barra lateral para começar</div>
             </div>
         </main>
     </div>
 
     <script>
-        let teamsData = [];
+        let areasData = [];
+        let selectedArea = null;
         let selectedTeam = null;
         let selectedTrack = null;
 
-        // Lista de arquivos de equipes - adicione aqui quando criar novos arquivos
-        const teamFiles = [
-            'teams/desktop.json',
-            'teams/modelos.json',
-            'teams/pmo.json',
-            'teams/produtos-digitais.json',
-            'teams/qualidade.json',
-            'teams/web.json'
-            // Adicione mais arquivos aqui conforme necessário
-            // 'public/teams/outra-equipe.json',
+        // Estrutura de áreas e equipes
+        // Formato: { areaName: 'Nome da Área', teams: ['equipe1.json', 'equipe2.json'] }
+        const areasStructure = [
+            {
+                areaName: 'PDI e Produtos Digitais',
+                teams: [
+                    'pdi/desktop.json',
+                    'pdi/modelos.json',
+                    'pdi/pmo.json',
+                    'pdi/produtos-digitais.json',
+                    'pdi/qualidade.json',
+                    'pdi/web.json'
+                ]
+            },
+            // Adicione mais áreas aqui
+            // {
+            //     areaName: 'Comercial',
+            //     teams: [
+            //         'areas/comercial/vendas.json',
+            //         'areas/comercial/marketing.json'
+            //     ]
+            // },
         ];
 
-        async function loadTeams() {
+        async function loadAreas() {
             try {
-                const promises = teamFiles.map(file => 
-                    fetch(file)
-                        .then(response => {
-                            if (!response.ok) throw new Error(`Erro ao carregar ${file}`);
-                            return response.json();
-                        })
-                        .catch(error => {
-                            console.warn(`Arquivo ${file} não encontrado, pulando...`);
-                            return null;
-                        })
-                );
+                areasData = [];
 
-                const results = await Promise.all(promises);
-                teamsData = results.filter(team => team !== null);
+                for (const area of areasStructure) {
+                    const areaData = {
+                        name: area.areaName,
+                        teams: []
+                    };
 
-                if (teamsData.length === 0) {
-                    showError('Nenhuma equipe encontrada. Verifique a pasta teams/');
+                    const teamPromises = area.teams.map(teamFile => 
+                        fetch(teamFile)
+                            .then(response => {
+                                if (!response.ok) throw new Error(`Erro ao carregar ${teamFile}`);
+                                return response.json();
+                            })
+                            .catch(error => {
+                                console.warn(`Arquivo ${teamFile} não encontrado, pulando...`);
+                                return null;
+                            })
+                    );
+
+                    const teams = await Promise.all(teamPromises);
+                    areaData.teams = teams.filter(team => team !== null);
+
+                    if (areaData.teams.length > 0) {
+                        areasData.push(areaData);
+                    }
+                }
+
+                if (areasData.length === 0) {
+                    showError('Nenhuma área encontrada. Verifique a estrutura de pastas.');
                 } else {
                     renderTree();
                 }
             } catch (error) {
-                console.error('Erro ao carregar equipes:', error);
-                showError('Erro ao carregar as equipes');
+                console.error('Erro ao carregar áreas:', error);
+                showError('Erro ao carregar as áreas');
             }
         }
 
@@ -514,66 +571,111 @@
             const container = document.getElementById('treeSection');
             container.innerHTML = '';
 
-            teamsData.forEach((team, teamIndex) => {
-                const teamItem = document.createElement('div');
-                teamItem.className = 'team-item';
+            areasData.forEach((area, areaIndex) => {
+                const areaItem = document.createElement('div');
+                areaItem.className = 'area-item';
 
-                const teamButton = document.createElement('button');
-                teamButton.className = 'team-button';
-                teamButton.innerHTML = `
-                    <span class="team-icon">▶</span>
-                    ${team.name}
+                const areaButton = document.createElement('button');
+                areaButton.className = 'area-button';
+                areaButton.innerHTML = `
+                    <span class="area-icon">▶</span>
+                    ${area.name}
                 `;
-                teamButton.onclick = () => toggleTeam(team, teamIndex);
+                areaButton.onclick = () => toggleArea(area, areaIndex);
 
-                const tracksTree = document.createElement('div');
-                tracksTree.className = 'tracks-tree';
-                tracksTree.id = `tracks-${teamIndex}`;
+                const teamsContainer = document.createElement('div');
+                teamsContainer.className = 'teams-container';
+                teamsContainer.id = `teams-${areaIndex}`;
 
-                team.tracks.forEach(track => {
-                    const trackItem = document.createElement('div');
-                    trackItem.className = 'track-item';
-                    
-                    let trackText = track.name;
-                    if (track.onboarding) {
-                        trackText = `🚩 ${track.name}`;
-                    }
-                    
-                    trackItem.textContent = trackText;
-                    trackItem.onclick = (e) => {
+                area.teams.forEach((team, teamIndex) => {
+                    const teamItem = document.createElement('div');
+                    teamItem.className = 'team-item';
+
+                    const teamButton = document.createElement('button');
+                    teamButton.className = 'team-button';
+                    teamButton.innerHTML = `
+                        <span class="team-icon">▶</span>
+                        ${team.name}
+                    `;
+                    teamButton.onclick = (e) => {
                         e.stopPropagation();
-                        selectTrack(team, track);
+                        toggleTeam(area, team, areaIndex, teamIndex);
                     };
-                    tracksTree.appendChild(trackItem);
+
+                    const tracksTree = document.createElement('div');
+                    tracksTree.className = 'tracks-tree';
+                    tracksTree.id = `tracks-${areaIndex}-${teamIndex}`;
+
+                    team.tracks.forEach(track => {
+                        const trackItem = document.createElement('div');
+                        trackItem.className = 'track-item';
+                        
+                        let trackText = track.name;
+                        if (track.onboarding) {
+                            trackText = `🚩 ${track.name}`;
+                        }
+                        
+                        trackItem.textContent = trackText;
+                        trackItem.onclick = (e) => {
+                            e.stopPropagation();
+                            selectTrack(area, team, track);
+                        };
+                        tracksTree.appendChild(trackItem);
+                    });
+
+                    teamItem.appendChild(teamButton);
+                    teamItem.appendChild(tracksTree);
+                    teamsContainer.appendChild(teamItem);
                 });
 
-                teamItem.appendChild(teamButton);
-                teamItem.appendChild(tracksTree);
-                container.appendChild(teamItem);
+                areaItem.appendChild(areaButton);
+                areaItem.appendChild(teamsContainer);
+                container.appendChild(areaItem);
             });
         }
 
-        function toggleTeam(team, teamIndex) {
-            const teamButtons = document.querySelectorAll('.team-button');
+        function toggleArea(area, areaIndex) {
+            const areaButtons = document.querySelectorAll('.area-button');
+            const currentButton = areaButtons[areaIndex];
+            const teamsContainer = document.getElementById(`teams-${areaIndex}`);
+
+            if (currentButton.classList.contains('active')) {
+                currentButton.classList.remove('active');
+                teamsContainer.classList.remove('expanded');
+                selectedArea = null;
+            } else {
+                areaButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.teams-container').forEach(container => container.classList.remove('expanded'));
+                
+                currentButton.classList.add('active');
+                teamsContainer.classList.add('expanded');
+                selectedArea = area;
+            }
+        }
+
+        function toggleTeam(area, team, areaIndex, teamIndex) {
+            selectedArea = area;
+            selectedTeam = team;
+            
+            const teamButtons = document.querySelectorAll(`#teams-${areaIndex} .team-button`);
             const currentButton = teamButtons[teamIndex];
-            const tracksTree = document.getElementById(`tracks-${teamIndex}`);
+            const tracksTree = document.getElementById(`tracks-${areaIndex}-${teamIndex}`);
 
             if (currentButton.classList.contains('active')) {
                 currentButton.classList.remove('active');
                 tracksTree.classList.remove('expanded');
                 selectedTeam = null;
-                showEmptyState();
             } else {
-                teamButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.team-button').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.tracks-tree').forEach(tree => tree.classList.remove('expanded'));
                 
                 currentButton.classList.add('active');
                 tracksTree.classList.add('expanded');
-                selectedTeam = team;
             }
         }
 
-        function selectTrack(team, track) {
+        function selectTrack(area, team, track) {
+            selectedArea = area;
             selectedTeam = team;
             selectedTrack = track;
 
@@ -600,7 +702,9 @@
             
             mainContent.innerHTML = `
                 <div class="breadcrumb">
-                    <span>${selectedTeam.name}</span> / <span>${selectedTrack.name}</span>
+                    <span>${selectedArea.name}</span> / 
+                    <span>${selectedTeam.name}</span> / 
+                    <span>${selectedTrack.name}</span>
                 </div>
 
                 <div class="track-header">
@@ -648,7 +752,7 @@
                 <div class="empty-state">
                     <div class="empty-icon">📚</div>
                     <div class="empty-title">Bem-vindo</div>
-                    <div class="empty-text">Selecione uma equipe na barra lateral para começar</div>
+                    <div class="empty-text">Selecione uma área na barra lateral para começar</div>
                 </div>
             `;
         }
@@ -661,8 +765,8 @@
             toggleBtn.classList.toggle('show');
         }
 
-        // Inicializa carregando as equipes
-        loadTeams();
+        // Inicializa carregando as áreas
+        loadAreas();
     </script>
 </body>
 </html>
@@ -670,24 +774,56 @@
 <!-- 
 INSTRUÇÕES DE USO:
 
-1. Estrutura de pastas necessária:
+1. Nova estrutura de pastas por área:
    /
-   ├── index.html (este arquivo)
-   ├── DOCUMENTACAO.md (arquivo de exemplo/documentação)
-   └── teams/
-       ├── equipe-alpha.json
-       ├── equipe-beta.json
-       ├── equipe-gamma.json
-       └── equipe-delta.json
+   ├── index.html
+   └── areas/
+       ├── tecnologia/
+       │   ├── qualidade.json
+       │   ├── web.json
+       │   ├── desktop.json
+       │   ├── modelos.json
+       │   ├── produtos-digitais.json
+       │   └── pmo.json
+       ├── comercial/
+       │   ├── vendas.json
+       │   └── marketing.json
+       └── financeiro/
+           └── contabilidade.json
 
-2. Para adicionar uma nova equipe:
-   - Crie um novo arquivo JSON na pasta teams/
-   - Adicione o nome do arquivo no array teamFiles (linha 382)
-   - Siga o formato dos arquivos de exemplo
+2. Estrutura do JSON de equipe (exemplo: pdi/qualidade.json):
+{
+  "name": "Equipe Qualidade",
+  "tracks": [
+    {
+      "id": "qa-fundamentos",
+      "name": "Fundamentos de QA",
+      "icon": "🎯",
+      "description": "Conceitos básicos de qualidade",
+      "onboarding": true,
+      "courses": [
+        {
+          "name": "Introdução ao QA",
+          "link": "https://exemplo.com/qa",
+          "onboarding": true
+        }
+      ]
+    }
+  ]
+}
 
-3. Recursos:
-   - Carregamento automático de todos os arquivos JSON
-   - Menu lateral que fecha ao selecionar uma trilha (mobile)
-   - Responsivo para desktop e mobile
-   - Toggle do menu lateral em dispositivos móveis
+3. Para adicionar uma nova área:
+   - Crie uma nova pasta em areas/ (ex: areas/rh/)
+   - Adicione os arquivos JSON das equipes nessa pasta
+   - No index.html, adicione a área no array areasStructure:
+   
+   {
+       areaName: 'RH',
+       teams: [
+           'areas/rh/recrutamento.json',
+           'areas/rh/treinamento.json'
+       ]
+   }
+
+4. Hierarquia: Área → Equipes (pastas) → Trilhas → Cursos
 -->

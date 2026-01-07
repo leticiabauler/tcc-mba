@@ -1,5 +1,5 @@
 {
-    "name": "PMO",
+    "name": "Modelos",
     "tracks": [
         {
             "id": "pdi-modelos-data-base",
@@ -12,6 +12,11 @@
                     "name": "Banco de dados Postgres",
                     "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
                     "onboarding": true
+                },
+                {
+                    "name": "Banco de dados Postgres",
+                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
+                    "onboarding": false
                 }
             ]
         },
