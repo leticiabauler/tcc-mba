@@ -2,7 +2,7 @@
     "name": "Qualidade",
     "tracks": [
         {
-            "id": "labview",
+            "id": "pdi-qualidade-labview",
             "name": "LabVIEW",
             "icon": "",
             "description": "Desenvolvimento de software com LabVIEW",
@@ -50,7 +50,7 @@
             ]
         },
         {
-            "id": "git",
+            "id": "pdi-qualidade-git",
             "name": "Git",
             "icon": "",
             "description": "Gitlab",
@@ -69,7 +69,7 @@
             ]
         },
         {
-            "id": "data-base",
+            "id": "pdi-qualidade-data-base",
             "name": "Banco de dados",
             "onboarding": true,
             "icon": "",
@@ -83,7 +83,7 @@
             ]
         },
         {
-            "id": "http-method",
+            "id": "pdi-qualidade-http-method",
             "name": "Método HTTP",
             "onboarding": true,
             "icon": "",
@@ -101,7 +101,7 @@
             ]
         },
         {
-            "id": "communication-protocols",
+            "id": "pdi-qualidade-communication-protocols",
             "name": "Protocolos de comunicação",
             "onboarding": true,
             "icon": "",
@@ -124,7 +124,7 @@
             ]
         },
         {
-            "id": "transformers",
+            "id": "pdi-qualidade-transformers",
             "name": "Transformadores",
             "onboarding": true,
             "icon": "",

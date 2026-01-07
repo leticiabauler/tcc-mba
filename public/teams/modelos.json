@@ -1,0 +1,38 @@
+{
+    "name": "PMO",
+    "tracks": [
+        {
+            "id": "pdi-modelos-data-base",
+            "name": "Banco de dados",
+            "onboarding": true,
+            "icon": "",
+            "description": "Banco de dados Postgres SQL",
+            "courses": [
+                {
+                    "name": "Banco de dados Postgres",
+                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
+                    "onboarding": true
+                }
+            ]
+        },
+        {
+            "id": "pdi-modelos-git",
+            "name": "Git",
+            "icon": "",
+            "description": "Gitlab",
+            "onboarding": true,
+            "courses": [
+                {
+                    "name": "Documentação Git",
+                    "link": "https://git-scm.com/docs",
+                    "onboarding": true
+                },
+                {
+                    "name": "Curso de Git - O que é um Sistema de Controle de Versão",
+                    "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
+                    "onboarding": true
+                }
+            ]
+        }
+    ]
+}
