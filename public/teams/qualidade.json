@@ -77,7 +77,8 @@
             "courses": [
                 {
                     "name": "Banco de dados Postgres",
-                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20"
+                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
+                    "onboarding": true
                 }
             ]
         },
@@ -94,7 +95,8 @@
                 },
                 {
                     "name": "Protocolo HTTP",
-                    "link": "https://www.youtube.com/watch?v=e5OS6EPnN3w&list=PLx6gdu4s3nkceYGr8i4H0necTuN_gx8H_"
+                    "link": "https://www.youtube.com/watch?v=e5OS6EPnN3w&list=PLx6gdu4s3nkceYGr8i4H0necTuN_gx8H_",
+                    "onboarding": true
                 }
             ]
         },
@@ -107,11 +109,13 @@
             "courses": [
                 {
                     "name": "TCP/IP",
-                    "link": "https://www.youtube.com/watch?v=KQvVXDiGBYY"
+                    "link": "https://www.youtube.com/watch?v=KQvVXDiGBYY",
+                    "onboarding": true
                 },
                 {
                     "name": "GPIB",
-                    "link": "https://www.youtube.com/watch?v=HEFFz_cho2s"
+                    "link": "https://www.youtube.com/watch?v=HEFFz_cho2s",
+                    "onboarding": true
                 },
                 {
                     "name": "Modbus",
@@ -128,7 +132,8 @@
             "courses": [
                 {
                     "name": "DT-11 - Transformadores",
-                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-11%20Transformadores?csf=1&web=1&e=rWvKAQ"
+                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-11%20Transformadores?csf=1&web=1&e=rWvKAQ",
+                    "onboarding": true
                 },
                 {
                     "name": "DT-20 - Seccionadores",
@@ -140,7 +145,8 @@
                 },
                 {
                     "name": "DT-35 - TPs e TCs (Balteau)",
-                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-35%20TP%20e%20TC%20Balteau?csf=1&web=1&e=dGUlXg"
+                    "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-35%20TP%20e%20TC%20Balteau?csf=1&web=1&e=dGUlXg",
+                    "onboarding": true
                 }
             ]
         }
