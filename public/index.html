@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WTD - Trilhas de treinamento</title>
     <link rel="icon" href="weg_icon.png" type="image/png">
     <style>
+        :root {
+            --bg-primary: #0a1628;
+            --bg-secondary: rgba(15, 23, 42, 0.6);
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --bg-hover: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(96, 165, 250, 0.1);
+            --border-active: #60a5fa;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --text-muted: #cbd5e1;
+            --accent-color: #60a5fa;
+            --accent-bg: rgba(96, 165, 250, 0.1);
+            --accent-hover: rgba(96, 165, 250, 0.2);
+            --scrollbar-track: rgba(30, 41, 59, 0.3);
+            --scrollbar-thumb: rgba(96, 165, 250, 0.3);
+            --shadow-color: rgba(96, 165, 250, 0.15);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: rgba(255, 255, 255, 0.8);
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --bg-hover: rgba(241, 245, 249, 1);
+            --border-color: rgba(96, 165, 250, 0.2);
+            --border-active: #3b82f6;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-muted: #475569;
+            --accent-color: #3b82f6;
+            --accent-bg: rgba(59, 130, 246, 0.1);
+            --accent-hover: rgba(59, 130, 246, 0.15);
+            --scrollbar-track: rgba(226, 232, 240, 0.5);
+            --scrollbar-thumb: rgba(59, 130, 246, 0.4);
+            --shadow-color: rgba(59, 130, 246, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,9 +51,10 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a1628;
+            background: var(--bg-primary);
             min-height: 100vh;
-            color: #e2e8f0;
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .container {
@@ -26,12 +64,12 @@
 
         .sidebar {
             width: 340px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--bg-secondary);
             backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(96, 165, 250, 0.1);
+            border-right: 1px solid var(--border-color);
             overflow-y: auto;
             padding: 30px 20px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease;
         }
 
         .sidebar.collapsed {
@@ -43,20 +81,48 @@
         .sidebar-header {
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .sidebar-header-text {
+            flex: 1;
         }
 
         .sidebar-title {
             font-size: 1.3em;
-            color: #60a5fa;
+            color: var(--accent-color);
             font-weight: 300;
             margin-bottom: 5px;
         }
 
         .sidebar-subtitle {
             font-size: 0.85em;
-            color: #94a3b8;
+            color: var(--text-secondary);
             font-weight: 300;
+        }
+
+        .theme-toggle {
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-color);
         }
 
         .tree-section {
@@ -70,10 +136,10 @@
         .area-button {
             width: 100%;
             padding: 14px 16px;
-            background: rgba(96, 165, 250, 0.1);
-            border: 1px solid rgba(96, 165, 250, 0.2);
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            color: #60a5fa;
+            color: var(--accent-color);
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 1em;
@@ -85,14 +151,14 @@
         }
 
         .area-button:hover {
-            background: rgba(96, 165, 250, 0.2);
-            border-color: #60a5fa;
+            background: var(--accent-hover);
+            border-color: var(--border-active);
         }
 
         .area-button.active {
-            background: rgba(96, 165, 250, 0.2);
-            border-color: #60a5fa;
-            box-shadow: 0 0 15px rgba(96, 165, 250, 0.2);
+            background: var(--accent-hover);
+            border-color: var(--border-active);
+            box-shadow: 0 0 15px var(--shadow-color);
         }
 
         .area-icon {
@@ -123,10 +189,10 @@
         .team-button {
             width: 100%;
             padding: 12px 16px;
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(96, 165, 250, 0.1);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 8px;
-            color: #e2e8f0;
+            color: var(--text-primary);
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.95em;
@@ -138,14 +204,14 @@
         }
 
         .team-button:hover {
-            background: rgba(30, 41, 59, 0.7);
-            border-color: #60a5fa;
+            background: var(--bg-hover);
+            border-color: var(--border-active);
         }
 
         .team-button.active {
-            background: rgba(96, 165, 250, 0.15);
-            border-color: #60a5fa;
-            color: #60a5fa;
+            background: var(--accent-bg);
+            border-color: var(--border-active);
+            color: var(--accent-color);
         }
 
         .team-icon {
@@ -172,25 +238,25 @@
         .track-item {
             padding: 10px 14px;
             margin-bottom: 6px;
-            background: rgba(30, 41, 59, 0.3);
-            border-left: 2px solid rgba(96, 165, 250, 0.2);
+            background: var(--bg-card);
+            border-left: 2px solid var(--border-color);
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9em;
-            color: #cbd5e1;
+            color: var(--text-muted);
         }
 
         .track-item:hover {
-            background: rgba(30, 41, 59, 0.6);
-            border-left-color: #60a5fa;
+            background: var(--bg-hover);
+            border-left-color: var(--border-active);
             transform: translateX(4px);
         }
 
         .track-item.active {
-            background: rgba(96, 165, 250, 0.1);
-            border-left-color: #60a5fa;
-            color: #60a5fa;
+            background: var(--accent-bg);
+            border-left-color: var(--border-active);
+            color: var(--accent-color);
         }
 
         .main-content {
@@ -204,9 +270,9 @@
             position: fixed;
             top: 20px;
             left: 20px;
-            background: rgba(96, 165, 250, 0.15);
-            border: 1px solid rgba(96, 165, 250, 0.3);
-            color: #60a5fa;
+            background: var(--accent-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent-color);
             padding: 10px 15px;
             border-radius: 8px;
             cursor: pointer;
@@ -217,7 +283,7 @@
         }
 
         .toggle-sidebar-btn:hover {
-            background: rgba(96, 165, 250, 0.25);
+            background: var(--accent-hover);
         }
 
         .toggle-sidebar-btn.show {
@@ -225,7 +291,7 @@
         }
 
         .breadcrumb {
-            background: rgba(30, 41, 59, 0.4);
+            background: var(--bg-card);
             padding: 12px 20px;
             border-radius: 8px;
             margin-bottom: 30px;
@@ -233,12 +299,12 @@
             align-items: center;
             gap: 10px;
             font-size: 0.9em;
-            color: #94a3b8;
-            border: 1px solid rgba(96, 165, 250, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .breadcrumb span {
-            color: #60a5fa;
+            color: var(--accent-color);
         }
 
         .empty-state {
@@ -258,13 +324,13 @@
 
         .empty-title {
             font-size: 1.5em;
-            color: #cbd5e1;
+            color: var(--text-muted);
             margin-bottom: 10px;
             font-weight: 300;
         }
 
         .empty-text {
-            color: #94a3b8;
+            color: var(--text-secondary);
             font-size: 1em;
             font-weight: 300;
         }
@@ -276,18 +342,18 @@
         }
 
         .course-card {
-            background: rgba(30, 41, 59, 0.5);
+            background: var(--bg-card);
             padding: 28px;
             border-radius: 12px;
-            border: 1px solid rgba(96, 165, 250, 0.1);
+            border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             position: relative;
         }
 
         .course-card:hover {
             transform: translateY(-4px);
-            border-color: #60a5fa;
-            box-shadow: 0 8px 24px rgba(96, 165, 250, 0.15);
+            border-color: var(--border-active);
+            box-shadow: 0 8px 24px var(--shadow-color);
         }
 
         .course-card.onboarding {
@@ -326,12 +392,12 @@
             display: inline-block;
             width: 32px;
             height: 32px;
-            background: rgba(96, 165, 250, 0.1);
+            background: var(--accent-bg);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #60a5fa;
+            color: var(--accent-color);
             font-weight: 600;
             font-size: 0.9em;
             margin-bottom: 16px;
@@ -340,7 +406,7 @@
         .course-title {
             font-size: 1.15em;
             font-weight: 400;
-            color: #e2e8f0;
+            color: var(--text-primary);
             margin-bottom: 20px;
             line-height: 1.5;
         }
@@ -350,19 +416,19 @@
             align-items: center;
             gap: 8px;
             padding: 11px 22px;
-            background: rgba(96, 165, 250, 0.1);
-            color: #60a5fa;
+            background: var(--accent-bg);
+            color: var(--accent-color);
             text-decoration: none;
             border-radius: 8px;
             font-weight: 400;
             font-size: 0.9em;
             transition: all 0.3s ease;
-            border: 1px solid rgba(96, 165, 250, 0.3);
+            border: 1px solid var(--border-color);
         }
 
         .course-link:hover {
-            background: #60a5fa;
-            color: #0a1628;
+            background: var(--accent-color);
+            color: var(--bg-primary);
             transform: translateX(2px);
         }
 
@@ -372,9 +438,9 @@
             gap: 15px;
             margin-bottom: 30px;
             padding: 24px;
-            background: rgba(30, 41, 59, 0.4);
+            background: var(--bg-card);
             border-radius: 12px;
-            border: 1px solid rgba(96, 165, 250, 0.1);
+            border: 1px solid var(--border-color);
         }
 
         .track-icon-large {
@@ -384,13 +450,13 @@
         .track-info h2 {
             font-size: 1.8em;
             font-weight: 300;
-            color: #e2e8f0;
+            color: var(--text-primary);
             margin-bottom: 8px;
         }
 
         .track-info p {
             font-size: 1em;
-            color: #94a3b8;
+            color: var(--text-secondary);
             font-weight: 300;
         }
 
@@ -406,15 +472,17 @@
         .loading-spinner {
             width: 50px;
             height: 50px;
-            border: 3px solid rgba(96, 165, 250, 0.2);
-            border-top-color: #60a5fa;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @media (max-width: 968px) {
@@ -447,27 +515,46 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(30, 41, 59, 0.3);
+            background: var(--scrollbar-track);
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgba(96, 165, 250, 0.3);
+            background: var(--scrollbar-thumb);
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(96, 165, 250, 0.5);
+            background: var(--accent-color);
+        }
+
+        .course-description {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .course-time {
+            font-size: 0.9em;
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 10px;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <button class="toggle-sidebar-btn" id="toggleSidebar" onclick="toggleSidebar()">☰</button>
-        
+
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-title">Trilhas de treinamento</div>
-                <div class="sidebar-subtitle">Selecione uma área</div>
+                <div class="sidebar-header-text">
+                    <div class="sidebar-title">WTD - Trilhas de treinamento</div>
+                    <div class="sidebar-subtitle">Selecione uma área</div>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+                    <span id="themeIcon">🌙</span>
+                </button>
             </div>
             <div class="tree-section" id="treeSection">
                 <div class="loading-state">
@@ -492,8 +579,28 @@
         let selectedTeam = null;
         let selectedTrack = null;
 
+        // Gerenciamento de tema
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+        }
+
         // Estrutura de áreas e equipes
-        // Formato: { areaName: 'Nome da Área', teams: ['equipe1.json', 'equipe2.json'] }
         const areasStructure = [
             {
                 areaName: 'PDI e Produtos Digitais',
@@ -506,14 +613,6 @@
                     'pdi/web.json'
                 ]
             },
-            // Adicione mais áreas aqui
-            // {
-            //     areaName: 'Comercial',
-            //     teams: [
-            //         'areas/comercial/vendas.json',
-            //         'areas/comercial/marketing.json'
-            //     ]
-            // },
         ];
 
         async function loadAreas() {
@@ -526,7 +625,7 @@
                         teams: []
                     };
 
-                    const teamPromises = area.teams.map(teamFile => 
+                    const teamPromises = area.teams.map(teamFile =>
                         fetch(teamFile)
                             .then(response => {
                                 if (!response.ok) throw new Error(`Erro ao carregar ${teamFile}`);
@@ -609,12 +708,12 @@
                     team.tracks.forEach(track => {
                         const trackItem = document.createElement('div');
                         trackItem.className = 'track-item';
-                        
+
                         let trackText = track.name;
                         if (track.onboarding) {
                             trackText = `🚩 ${track.name}`;
                         }
-                        
+
                         trackItem.textContent = trackText;
                         trackItem.onclick = (e) => {
                             e.stopPropagation();
@@ -646,7 +745,7 @@
             } else {
                 areaButtons.forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.teams-container').forEach(container => container.classList.remove('expanded'));
-                
+
                 currentButton.classList.add('active');
                 teamsContainer.classList.add('expanded');
                 selectedArea = area;
@@ -656,7 +755,7 @@
         function toggleTeam(area, team, areaIndex, teamIndex) {
             selectedArea = area;
             selectedTeam = team;
-            
+
             const teamButtons = document.querySelectorAll(`#teams-${areaIndex} .team-button`);
             const currentButton = teamButtons[teamIndex];
             const tracksTree = document.getElementById(`tracks-${areaIndex}-${teamIndex}`);
@@ -668,7 +767,7 @@
             } else {
                 document.querySelectorAll('.team-button').forEach(btn => btn.classList.remove('active'));
                 document.querySelectorAll('.tracks-tree').forEach(tree => tree.classList.remove('expanded'));
-                
+
                 currentButton.classList.add('active');
                 tracksTree.classList.add('expanded');
             }
@@ -684,7 +783,6 @@
             });
             event.target.classList.add('active');
 
-            // Fecha o menu lateral em telas pequenas
             if (window.innerWidth <= 968) {
                 toggleSidebar();
             }
@@ -694,36 +792,36 @@
 
         function renderCourses() {
             const mainContent = document.getElementById('mainContent');
-            
+
             let onboardingBadge = '';
             if (selectedTrack.onboarding) {
                 onboardingBadge = '<span class="track-onboarding-badge">🚩 Obrigatório para Onboarding</span>';
             }
-            
+
             mainContent.innerHTML = `
-                <div class="breadcrumb">
-                    <span>${selectedArea.name}</span> / 
-                    <span>${selectedTeam.name}</span> / 
-                    <span>${selectedTrack.name}</span>
-                </div>
+        <div class="breadcrumb">
+            <span>${selectedArea.name}</span> / 
+            <span>${selectedTeam.name}</span> / 
+            <span>${selectedTrack.name}</span>
+        </div>
 
-                <div class="track-header">
-                    <div class="track-icon-large">${selectedTrack.icon}</div>
-                    <div class="track-info">
-                        <h2>${selectedTrack.name} ${onboardingBadge}</h2>
-                        <p>${selectedTrack.description}</p>
-                    </div>
-                </div>
+        <div class="track-header">
+            <div class="track-icon-large">${selectedTrack.icon}</div>
+            <div class="track-info">
+                <h2>${selectedTrack.name} ${onboardingBadge}</h2>
+                <p>${selectedTrack.description}</p>
+            </div>
+        </div>
 
-                <div class="courses-grid" id="coursesGrid"></div>
-            `;
+        <div class="courses-grid" id="coursesGrid"></div>
+    `;
 
             const coursesGrid = document.getElementById('coursesGrid');
-            
+
             selectedTrack.courses.forEach((course, index) => {
                 const courseCard = document.createElement('div');
                 courseCard.className = 'course-card';
-                
+
                 if (course.onboarding) {
                     courseCard.classList.add('onboarding');
                 }
@@ -733,14 +831,28 @@
                     onboardingBadgeHtml = '<div class="onboarding-badge">🚩 Obrigatório para Onboarding</div>';
                 }
 
+                const courseDescription = course.description ? `<p class="course-description">${course.description}</p>` : '';
+                const courseEstimatedTime = course.time ? `<p class="course-time">⏳ ${course.time}</p>` : '';
+                const buttonText = course.buttonText || "Acessar curso";
+
+                // Verifica se há link para mostrar o botão
+                let linkButton = '';
+                if (course.link) {
+                    linkButton = `
+                        <a href="${course.link}" target="_blank" class="course-link">
+                            ${buttonText} →
+                        </a>
+                    `;
+                }
+
                 courseCard.innerHTML = `
-                    <div class="course-number">${index + 1}</div>
-                    ${onboardingBadgeHtml}
-                    <div class="course-title">${course.name}</div>
-                    <a href="${course.link}" target="_blank" class="course-link">
-                        Acessar curso →
-                    </a>
-                `;
+            <div class="course-number">${index + 1}</div>
+            ${onboardingBadgeHtml}
+            <div class="course-title">${course.name}</div>
+            ${courseDescription}
+            ${courseEstimatedTime}
+            ${linkButton}
+        `;
 
                 coursesGrid.appendChild(courseCard);
             });
@@ -760,70 +872,15 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const toggleBtn = document.getElementById('toggleSidebar');
-            
+
             sidebar.classList.toggle('collapsed');
             toggleBtn.classList.toggle('show');
         }
 
-        // Inicializa carregando as áreas
+        // Inicialização
+        initTheme();
         loadAreas();
     </script>
 </body>
+
 </html>
-
-<!-- 
-INSTRUÇÕES DE USO:
-
-1. Nova estrutura de pastas por área:
-   /
-   ├── index.html
-   └── areas/
-       ├── tecnologia/
-       │   ├── qualidade.json
-       │   ├── web.json
-       │   ├── desktop.json
-       │   ├── modelos.json
-       │   ├── produtos-digitais.json
-       │   └── pmo.json
-       ├── comercial/
-       │   ├── vendas.json
-       │   └── marketing.json
-       └── financeiro/
-           └── contabilidade.json
-
-2. Estrutura do JSON de equipe (exemplo: pdi/qualidade.json):
-{
-  "name": "Equipe Qualidade",
-  "tracks": [
-    {
-      "id": "qa-fundamentos",
-      "name": "Fundamentos de QA",
-      "icon": "🎯",
-      "description": "Conceitos básicos de qualidade",
-      "onboarding": true,
-      "courses": [
-        {
-          "name": "Introdução ao QA",
-          "link": "https://exemplo.com/qa",
-          "onboarding": true
-        }
-      ]
-    }
-  ]
-}
-
-3. Para adicionar uma nova área:
-   - Crie uma nova pasta em areas/ (ex: areas/rh/)
-   - Adicione os arquivos JSON das equipes nessa pasta
-   - No index.html, adicione a área no array areasStructure:
-   
-   {
-       areaName: 'RH',
-       teams: [
-           'areas/rh/recrutamento.json',
-           'areas/rh/treinamento.json'
-       ]
-   }
-
-4. Hierarquia: Área → Equipes (pastas) → Trilhas → Cursos
--->

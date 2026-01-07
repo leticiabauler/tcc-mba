@@ -11,6 +11,8 @@
                 {
                     "name": "Banco de dados Postgres",
                     "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
+                    "description": "Este curso aborda os conceitos iniciais do banco de dados",
+                    "time": "40 horas",   
                     "onboarding": true
                 }
             ]
@@ -25,11 +27,14 @@
                 {
                     "name": "Documentação Git",
                     "link": "https://git-scm.com/docs",
+                    "description": "Documentação oficial do Git", 
                     "onboarding": true
                 },
                 {
                     "name": "Curso de Git - O que é um Sistema de Controle de Versão",
                     "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
+                    "description": "Este curso aborda os conceitos iniciais do Git",
+                    "time": "40 horas",   
                     "onboarding": true
                 }
             ]

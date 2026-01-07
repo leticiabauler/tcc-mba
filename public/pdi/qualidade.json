@@ -11,16 +11,22 @@
                 {
                     "name": "LabVIEW Core 1",
                     "link": "https://learn.ni.com/learn/learning-path/labview-core-1",
+                    "description": "Este curso aborda os conceitos iniciais do LabVIEW",
+                    "time": "40 horas",
                     "onboarding": true
                 },
                 {
                     "name": "LabVIEW Core 2",
                     "link": "https://learn.ni.com/learn/learning-path/labview-core-2-course",
+                    "description": "Este curso aborda os conceitos iniciais do LabVIEW",
+                    "time": "40 horas",
                     "onboarding": true
                 },
                 {
                     "name": "LabVIEW Core 3",
                     "link": "https://learn.ni.com/learn/learning-path/labview-core-3-2016-english",
+                    "description": "Este curso aborda os conceitos iniciais do LabVIEW",
+                    "time": "40 horas",
                     "onboarding": true
                 },
                 {
@@ -53,13 +59,13 @@
             "id": "pdi-qualidade-git",
             "name": "Git",
             "icon": "",
-            "description": "Gitlab",
+            "description": "Funcionalidades, comandos e utilização do Git",
             "onboarding": true,
             "courses": [
                 {
                     "name": "Documentação Git",
                     "link": "https://git-scm.com/docs",
-                    "onboarding": true
+                    "buttonText": "Acessar documentação"
                 },
                 {
                     "name": "Curso de Git - O que é um Sistema de Controle de Versão",
@@ -91,7 +97,8 @@
             "courses": [
                 {
                     "name": "Documentação HTTP",
-                    "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP"
+                    "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP",
+                    "buttonText": "Acessar documentação"
                 },
                 {
                     "name": "Protocolo HTTP",
