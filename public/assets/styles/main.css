@@ -354,30 +354,34 @@ body {
 .onboarding-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    gap: 6px;                /* aproxima ícone/texto */
+    padding: 4px 10px;        /* reduz o “ar” interno */
     background: rgba(245, 158, 11, 0.15);
     color: #fbbf24;
-    border-radius: 6px;
-    font-size: 0.8em;
+    border-radius: 5px;      /* menos arredondado */
+    font-size: 0.75em;
     font-weight: 500;
-    margin-bottom: 12px;
+    line-height: 2;          /* MUITO importante */
     border: 1px solid rgba(245, 158, 11, 0.3);
+    margin-bottom: 8px;
 }
+
 
 .track-onboarding-badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 12px;
+    padding: 6px 6px;
     background: rgba(245, 158, 11, 0.15);
     color: #fbbf24;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 0.6em;
     font-weight: 500;
+    line-height: 1;
     border: 1px solid rgba(245, 158, 11, 0.3);
-    margin-left: 12px;
+    margin-left: 8px;
 }
+
 
 .course-number {
     display: inline-block;
