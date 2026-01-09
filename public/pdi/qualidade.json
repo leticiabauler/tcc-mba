@@ -63,14 +63,19 @@
             "onboarding": true,
             "courses": [                
                 {
-                    "name": "Curso de Git - O que é um Sistema de Controle de Versão",
-                    "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
+                    "name": "Curso de Git",
+                    "link": "https://www.youtube.com/watch?v=xEKo29OWILE&list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA",
                     "onboarding": true
                 },
                 {
                     "name": "Documentação Git",
                     "link": "https://git-scm.com/docs",
                     "buttonText": "Acessar documentação"
+                },
+                {
+                    "name": "Aprenda a usar branch \"jogando\"",
+                    "link": "https://learngitbranching.js.org/",
+                    "buttonText": "Acessar página"
                 }
             ]
         },
