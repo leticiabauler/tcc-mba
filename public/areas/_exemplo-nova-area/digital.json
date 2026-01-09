@@ -1,0 +1,36 @@
+{
+  "teamName": "Marketing Digital",
+  "tracks": [
+    {
+      "name": "Fundamentos de Marketing Digital",
+      "courses": [
+        {
+          "name": "Introdução ao Marketing Digital",
+          "description": "Conceitos básicos e estratégias fundamentais",
+          "estimatedTime": "3h",
+          "url": "https://exemplo.com/marketing-digital",
+          "onboarding": true
+        },
+        {
+          "name": "SEO e SEM",
+          "description": "Otimização para mecanismos de busca",
+          "estimatedTime": "4h",
+          "url": "https://exemplo.com/seo-sem",
+          "onboarding": false
+        }
+      ]
+    },
+    {
+      "name": "Analytics e Métricas",
+      "courses": [
+        {
+          "name": "Google Analytics",
+          "description": "Análise de dados e comportamento do usuário",
+          "estimatedTime": "2h",
+          "url": "https://exemplo.com/analytics",
+          "onboarding": false
+        }
+      ]
+    }
+  ]
+}

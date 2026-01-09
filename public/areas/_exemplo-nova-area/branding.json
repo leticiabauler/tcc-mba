@@ -1,0 +1,17 @@
+{
+  "teamName": "Branding",
+  "tracks": [
+    {
+      "name": "Identidade Visual",
+      "courses": [
+        {
+          "name": "Design de Marca",
+          "description": "Criação e gestão de identidade de marca",
+          "estimatedTime": "5h",
+          "url": "https://exemplo.com/design-marca",
+          "onboarding": true
+        }
+      ]
+    }
+  ]
+}

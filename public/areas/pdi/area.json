@@ -1,0 +1,13 @@
+{
+  "name": "PDI e Produtos Digitais",
+  "description": "Trilhas de desenvolvimento para times de PDI e Produtos Digitais",
+  "icon": "💻",
+  "teams": [
+    "desktop.json",
+    "modelos.json",
+    "pmo.json",
+    "produtos-digitais.json",
+    "qualidade.json",
+    "web.json"
+  ]
+}
