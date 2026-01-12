@@ -166,6 +166,9 @@ function renderTree() {
                 if (track.onboarding) {
                     trackText = `🚩 ${track.name}`;
                 }
+                if (track.desirable) {
+                    trackText = `✨ ${track.name}`;
+                }
 
                 trackItem.textContent = trackText;
                 trackItem.onclick = (e) => {
@@ -251,8 +254,12 @@ function renderCourses() {
     const mainContent = document.getElementById('mainContent');
 
     let onboardingBadge = '';
+    let desirableTrackBadge = '';
     if (selectedTrack.onboarding) {
         onboardingBadge = '<span class="track-onboarding-badge">🚩 Obrigatório para Onboarding</span>';
+    }
+    if (selectedTrack.desirable) {
+        desirableTrackBadge = '<span class="track-desirable-badge">✨ Desejável</span>';
     }
 
     mainContent.innerHTML = `
@@ -265,7 +272,7 @@ function renderCourses() {
         <div class="track-header">
             <div class="track-icon-large">${selectedTrack.icon}</div>
             <div class="track-info">
-                <h2>${selectedTrack.name} ${onboardingBadge}</h2>
+                <h2>${selectedTrack.name} ${onboardingBadge} ${desirableTrackBadge}</h2>
                 <p>${selectedTrack.description}</p>
             </div>
         </div>
@@ -282,10 +289,18 @@ function renderCourses() {
         if (course.onboarding) {
             courseCard.classList.add('onboarding');
         }
+        if (course.desirable) {
+            courseCard.classList.add('desirable');
+        }
 
         let onboardingBadgeHtml = '';
         if (course.onboarding) {
             onboardingBadgeHtml = '<div class="onboarding-badge">🚩 Obrigatório para Onboarding</div>';
+        }
+
+        let desirableBadgeHtml = '';
+        if (course.desirable) {
+            desirableBadgeHtml = '<div class="desirable-badge">✨ Desejável</div>';
         }
 
         const courseDescription = course.description ? `<p class="course-description">${course.description}</p>` : '';
@@ -304,6 +319,7 @@ function renderCourses() {
         courseCard.innerHTML = `
             <div class="course-number">${index + 1}</div>
             ${onboardingBadgeHtml}
+            ${desirableBadgeHtml}
             <div class="course-title">${course.name}</div>
             ${courseDescription}
             ${courseEstimatedTime}

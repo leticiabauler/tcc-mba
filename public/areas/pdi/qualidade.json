@@ -31,11 +31,13 @@
                 },
                 {
                     "name": "Continuous Integration",
-                    "link": "https://learn.ni.com/learning-paths/continuous-integration"
+                    "link": "https://learn.ni.com/learning-paths/continuous-integration",
+                    "desirable": true
                 },
                 {
                     "name": "Object-Oriented Design and Programming in LabVIEW",
-                    "link": "https://learn.ni.com/learn/learning-path/object-oriented-design-and-programming-in-labview-oop"
+                    "link": "https://learn.ni.com/learn/learning-path/object-oriented-design-and-programming-in-labview-oop",
+                    "desirable": true
                 },
                 {
                     "name": "Project Management",
