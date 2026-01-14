@@ -3,6 +3,9 @@ let areasData = [];
 let selectedArea = null;
 let selectedTeam = null;
 let selectedTrack = null;
+let currentCourseData = null;
+let currentCourseSection = 0;
+let markdownParser = null;
 
 // Theme management
 function initTheme() {
@@ -156,11 +159,10 @@ function renderTree() {
 
             const tracksTree = document.createElement('div');
             tracksTree.className = 'tracks-tree';
-            tracksTree.id = `tracks-${areaIndex}-${teamIndex}`;
-
-            team.tracks.forEach(track => {
+            tracksTree.id = `tracks-${areaIndex}-${teamIndex}`;            team.tracks.forEach(track => {
                 const trackItem = document.createElement('div');
                 trackItem.className = 'track-item';
+                trackItem.dataset.trackId = track.id;
 
                 let trackText = track.name;
                 if (track.onboarding) {
@@ -262,6 +264,9 @@ function renderCourses() {
         desirableTrackBadge = '<span class="track-desirable-badge">✨ Desejável</span>';
     }
 
+    // Generate and display deeplink
+    const trackDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack);
+
     mainContent.innerHTML = `
         <div class="breadcrumb">
             <span>${selectedArea.name}</span> / 
@@ -274,6 +279,9 @@ function renderCourses() {
             <div class="track-info">
                 <h2>${selectedTrack.name} ${onboardingBadge} ${desirableTrackBadge}</h2>
                 <p>${selectedTrack.description}</p>
+                <button class="share-course-btn" onclick="copyDeeplinkToClipboard('${trackDeeplink}')">
+                    🔗 Copiar link da trilha
+                </button>
             </div>
         </div>
 
@@ -308,7 +316,16 @@ function renderCourses() {
         const buttonText = course.buttonText || "Acessar curso";
 
         let linkButton = '';
-        if (course.link) {
+        
+        if (course.type === 'manual' && course.coursePath) {
+            // Manual course - open modal
+            linkButton = `
+                <button class="course-link" onclick='openManualCourse(${JSON.stringify(course).replace(/'/g, "&apos;")})'>
+                    ${buttonText} →
+                </button>
+            `;
+        } else if (course.link) {
+            // External course
             linkButton = `
                 <a href="${course.link}" target="_blank" class="course-link">
                     ${buttonText} →
@@ -351,8 +368,396 @@ function toggleSidebar() {
     toggleBtn.classList.toggle('show');
 }
 
+// Manual Course Functions
+async function openManualCourse(course) {
+    try {
+        // Load course data
+        const response = await fetch(course.coursePath);
+        if (!response.ok) throw new Error('Erro ao carregar curso');
+        
+        currentCourseData = await response.json();
+        currentCourseSection = 0;
+        
+        // Create modal
+        createCourseModal();
+        
+        // Load first section
+        await loadCourseSection(0);
+        
+        // Update URL with deeplink
+        const courseDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, course);
+        window.history.pushState({}, '', courseDeeplink);
+        
+    } catch (error) {
+        console.error('Erro ao abrir curso:', error);
+        alert('Erro ao carregar o curso. Tente novamente.');
+    }
+}
+
+function createCourseModal() {
+    // Remove existing modal if any
+    const existingModal = document.getElementById('courseModal');
+    if (existingModal) existingModal.remove();
+    
+    const modal = document.createElement('div');
+    modal.id = 'courseModal';
+    modal.className = 'course-modal';
+    
+    const courseDeeplink = generateDeeplink(
+        selectedArea, 
+        selectedTeam, 
+        selectedTrack, 
+        { courseId: currentCourseData.id }
+    );
+    
+    modal.innerHTML = `
+        <div class="course-modal-content">
+            <div class="course-modal-header">
+                <div class="course-modal-title-area">
+                    <h2>${currentCourseData.title}</h2>
+                    <div class="course-modal-meta">
+                        <span>⏱️ ${currentCourseData.duration}</span>
+                        <span>👤 ${currentCourseData.author}</span>
+                        <span>📅 ${formatDate(currentCourseData.lastUpdate)}</span>
+                    </div>
+                    <button class="share-course-btn" onclick="copyDeeplinkToClipboard('${courseDeeplink}')">
+                        🔗 Copiar link do curso
+                    </button>
+                </div>
+                <button class="course-modal-close" onclick="closeCourseModal()">×</button>
+            </div>
+            <div class="course-modal-body">
+                <div class="course-modal-sidebar" id="courseSidebar"></div>
+                <div class="course-modal-content-area" id="courseContent"></div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Render sidebar
+    renderCourseSidebar();
+    
+    // Show modal with animation
+    setTimeout(() => modal.classList.add('active'), 10);
+    
+    // Close on outside click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeCourseModal();
+    });
+    
+    // Close on ESC key
+    document.addEventListener('keydown', handleModalKeydown);
+}
+
+function handleModalKeydown(e) {
+    if (e.key === 'Escape') {
+        closeCourseModal();
+    }
+}
+
+function renderCourseSidebar() {
+    const sidebar = document.getElementById('courseSidebar');
+    if (!sidebar) return;
+    
+    sidebar.innerHTML = '';
+    
+    currentCourseData.sections.forEach((section, index) => {
+        const item = document.createElement('div');
+        item.className = 'course-section-item';
+        if (index === currentCourseSection) {
+            item.classList.add('active');
+        }
+        
+        item.innerHTML = `
+            <div class="course-section-number">Seção ${index + 1}</div>
+            <div class="course-section-title">${section.title}</div>
+        `;
+        
+        item.onclick = () => loadCourseSection(index);
+        sidebar.appendChild(item);
+    });
+}
+
+async function loadCourseSection(index) {
+    currentCourseSection = index;
+    const section = currentCourseData.sections[index];
+    const contentArea = document.getElementById('courseContent');
+    
+    if (!contentArea) return;
+    
+    // Update sidebar active state
+    document.querySelectorAll('.course-section-item').forEach((item, i) => {
+        item.classList.toggle('active', i === index);
+    });
+    
+    // Show loading
+    contentArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando conteúdo...</p></div>';
+    
+    try {
+        if (section.type === 'markdown') {
+            await loadMarkdownSection(section, contentArea);
+        } else if (section.type === 'video') {
+            await loadVideoSection(section, contentArea);
+        }
+        
+        // Add navigation buttons
+        addNavigationButtons(contentArea);
+        
+        // Scroll to top
+        contentArea.scrollTop = 0;
+        
+    } catch (error) {
+        console.error('Erro ao carregar seção:', error);
+        contentArea.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">Erro ao carregar conteúdo.</p>';
+    }
+}
+
+async function loadMarkdownSection(section, contentArea) {
+    const coursePath = currentCourseData.sections[0].content.split('/').slice(0, -1).join('/');
+    const fullPath = `areas/pdi/cursos/${currentCourseData.id}/${section.content}`;
+    
+    const response = await fetch(fullPath);
+    if (!response.ok) throw new Error('Erro ao carregar markdown');
+    
+    const markdownText = await response.text();
+    
+    // Parse markdown
+    let htmlContent = markdownText;
+    if (markdownParser) {
+        htmlContent = markdownParser.parse(markdownText);
+    }
+    
+    contentArea.innerHTML = `<div class="markdown-content">${htmlContent}</div>`;
+}
+
+async function loadVideoSection(section, contentArea) {
+    const coursePath = `areas/pdi/cursos/${currentCourseData.id}/${section.content}`;
+    const posterPath = section.poster ? `areas/pdi/cursos/${currentCourseData.id}/${section.poster}` : '';
+    
+    contentArea.innerHTML = `
+        <div class="markdown-content">
+            <h1>${section.title}</h1>
+            <div class="video-container">
+                <video controls ${posterPath ? `poster="${posterPath}"` : ''}>
+                    <source src="${coursePath}" type="video/mp4">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+            </div>
+        </div>
+    `;
+}
+
+function addNavigationButtons(contentArea) {
+    const hasNext = currentCourseSection < currentCourseData.sections.length - 1;
+    const hasPrev = currentCourseSection > 0;
+    
+    const navDiv = document.createElement('div');
+    navDiv.className = 'course-navigation';
+    navDiv.innerHTML = `
+        <button class="course-nav-btn" onclick="previousSection()" ${!hasPrev ? 'disabled' : ''}>
+            ← Anterior
+        </button>
+        <span style="color: var(--text-secondary); font-size: 0.9em;">
+            ${currentCourseSection + 1} de ${currentCourseData.sections.length}
+        </span>
+        <button class="course-nav-btn" onclick="nextSection()" ${!hasNext ? 'disabled' : ''}>
+            Próxima →
+        </button>
+    `;
+    
+    contentArea.appendChild(navDiv);
+}
+
+function nextSection() {
+    if (currentCourseSection < currentCourseData.sections.length - 1) {
+        loadCourseSection(currentCourseSection + 1);
+    }
+}
+
+function previousSection() {
+    if (currentCourseSection > 0) {
+        loadCourseSection(currentCourseSection - 1);
+    }
+}
+
+function closeCourseModal() {
+    const modal = document.getElementById('courseModal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => modal.remove(), 300);
+    }
+    
+    // Remove keydown listener
+    document.removeEventListener('keydown', handleModalKeydown);
+    
+    // Update URL to track without course
+    if (selectedArea && selectedTeam && selectedTrack) {
+        const trackDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack);
+        window.history.pushState({}, '', trackDeeplink);
+    }
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    });
+}
+
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
-    loadAreas();
+    loadAreas().then(() => {
+        // Process deeplink after areas are loaded
+        processDeeplink();
+    });
+    initMarkdownParser();
+});
+
+// Initialize markdown parser
+function initMarkdownParser() {
+    // Using marked.js for markdown parsing
+    if (typeof marked !== 'undefined') {
+        markdownParser = marked;
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            mangle: false
+        });
+    }
+}
+
+// Deeplink Processing
+function processDeeplink() {
+    const hash = window.location.hash.substring(1);
+    if (!hash) return;
+
+    const parts = hash.split('/');
+    
+    if (parts[0] === 'area' && parts.length >= 2) {
+        const areaName = decodeURIComponent(parts[1]);
+        const teamName = parts.length >= 3 ? decodeURIComponent(parts[2]) : null;
+        const trackId = parts.length >= 4 ? decodeURIComponent(parts[3]) : null;
+        const courseId = parts.length >= 5 ? decodeURIComponent(parts[4]) : null;
+        
+        navigateToDeeplink(areaName, teamName, trackId, courseId);
+    }
+}
+
+function navigateToDeeplink(areaName, teamName, trackId, courseId) {
+    // Find area
+    const area = areasData.find(a => normalizeString(a.name) === normalizeString(areaName));
+    if (!area) return;
+
+    // Find team
+    if (teamName) {
+        const team = area.teams.find(t => normalizeString(t.name) === normalizeString(teamName));
+        if (!team) return;
+
+        // Find track
+        if (trackId) {
+            const track = team.tracks.find(tr => tr.id === trackId);
+            if (!track) return;
+
+            // Select track
+            selectedArea = area;
+            selectedTeam = team;
+            selectedTrack = track;
+
+            // Expand UI
+            const areaIndex = areasData.indexOf(area);
+            const teamIndex = area.teams.indexOf(team);
+            
+            expandArea(areaIndex);
+            expandTeam(areaIndex, teamIndex);
+            selectTrackInUI(track);
+            renderCourses();
+
+            // Open specific course if provided
+            if (courseId) {
+                setTimeout(() => {
+                    const course = track.courses.find(c => c.courseId === courseId);
+                    if (course && course.type === 'manual') {
+                        openManualCourse(course);
+                    }
+                }, 100);
+            }
+        }
+    }
+}
+
+function normalizeString(str) {
+    return str.toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-');
+}
+
+function expandArea(areaIndex) {
+    const areaButtons = document.querySelectorAll('.area-button');
+    const currentButton = areaButtons[areaIndex];
+    const teamsContainer = document.getElementById(`teams-${areaIndex}`);
+    
+    if (currentButton && teamsContainer) {
+        currentButton.classList.add('active');
+        teamsContainer.classList.add('expanded');
+    }
+}
+
+function expandTeam(areaIndex, teamIndex) {
+    const teamButtons = document.querySelectorAll(`#teams-${areaIndex} .team-button`);
+    const currentButton = teamButtons[teamIndex];
+    const tracksTree = document.getElementById(`tracks-${areaIndex}-${teamIndex}`);
+    
+    if (currentButton && tracksTree) {
+        currentButton.classList.add('active');
+        tracksTree.classList.add('expanded');
+    }
+}
+
+function selectTrackInUI(track) {
+    document.querySelectorAll('.track-item').forEach(item => {
+        if (item.dataset.trackId === track.id) {
+            item.classList.add('active');
+        }
+    });
+}
+
+// Generate deeplink
+function generateDeeplink(area, team, track, course = null) {
+    let link = `#/area/${encodeURIComponent(area.name)}`;
+    if (team) link += `/${encodeURIComponent(team.name)}`;
+    if (track) link += `/${encodeURIComponent(track.id)}`;
+    if (course && course.courseId) link += `/${encodeURIComponent(course.courseId)}`;
+    return window.location.origin + window.location.pathname + link;
+}
+
+function copyDeeplinkToClipboard(deeplink) {
+    navigator.clipboard.writeText(deeplink).then(() => {
+        showNotification('Link copiado para a área de transferência! 🔗');
+    }).catch(err => {
+        console.error('Erro ao copiar link:', err);
+        showNotification('Erro ao copiar link ❌');
+    });
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'share-notification show';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Listen to hash changes
+window.addEventListener('hashchange', () => {
+    processDeeplink();
 });

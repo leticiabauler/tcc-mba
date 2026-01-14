@@ -1,0 +1,34 @@
+{
+    "id": "labview-boas-praticas",
+    "title": "Boas Práticas em LabVIEW",
+    "description": "Aprenda as melhores práticas para desenvolvimento em LabVIEW",
+    "duration": "2 horas",
+    "author": "Equipe Qualidade WEG",
+    "lastUpdate": "2026-01-14",
+    "sections": [
+        {
+            "id": "introducao",
+            "title": "Introdução",
+            "type": "markdown",
+            "content": "introducao.md"
+        },
+        {
+            "id": "organizacao-codigo",
+            "title": "Organização de Código",
+            "type": "markdown",
+            "content": "organizacao-codigo.md"
+        },
+        {
+            "id": "padroes-design",
+            "title": "Padrões de Design",
+            "type": "markdown",
+            "content": "padroes-design.md"
+        },
+        {
+            "id": "exemplos-praticos",
+            "title": "Exemplos Práticos",
+            "type": "markdown",
+            "content": "exemplos-praticos.md"
+        }
+    ]
+}
