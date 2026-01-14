@@ -371,6 +371,9 @@ body {
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px; /* Altura mínima para garantir consistência */
 }
 
 .course-card:hover {
@@ -456,6 +459,20 @@ body {
     color: var(--text-primary);
     margin-bottom: 20px;
     line-height: 1.5;
+    /* Removido flex: 1 - não precisa mais */
+}
+
+.course-description {
+    font-size: 0.9em;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.course-time {
+    font-size: 0.9em;
+    color: var(--accent-color);
+    font-weight: 500;
+    margin-bottom: 10px;
 }
 
 .course-link {
@@ -601,19 +618,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent-color);
-}
-
-.course-description {
-    font-size: 0.9em;
-    color: var(--text-secondary);
-    margin-bottom: 10px;
-}
-
-.course-time {
-    font-size: 0.9em;
-    color: var(--accent-color);
-    font-weight: 500;
-    margin-bottom: 10px;
 }
 
 /* Modal de Curso Manual */

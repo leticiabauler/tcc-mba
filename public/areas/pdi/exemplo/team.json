@@ -1,0 +1,83 @@
+{
+    "name": "Trilha de exemplos",
+    "description": "Uma única trilha demonstrando todas as combinações de cursos (internos e externos) para servir de referência.",
+    "icon": "",
+    "color": "#3F51B5",
+    "tracks": [
+        {
+            "id": "exemplos",
+            "name": "Exemplos",
+            "description": "Contém exemplos: interno (1 seção), interno (multi-seções), com/sem tempo, obrigatório/desejável, externo com botão e externo sem botão.",
+            "icon": "",
+            "onboarding": true,
+            "desirable": false,
+            "color": "#607D8B",
+            "courses": [
+                {
+                    "type": "manual",
+                    "name": "Exemplo 1 - Markdown com mais seções",
+                    "description": "Exemplo de curso interno com apenas mais de uma seção.",
+                    "courseId": "git-pratico",
+                    "coursePath": "areas/pdi/exemplo/cursos/git-pratico",
+                    "time": "45 min",
+                    "onboarding": false,
+                    "desirable": true,
+                    "buttonText": "Ver curso"
+                },
+                {
+                    "type": "manual",
+                    "name": "Exemplo 2 - Markdown com uma seção",
+                    "description": "Exemplo de curso interno com apenas UMA seção",
+                    "courseId": "git-pratico",
+                    "coursePath": "areas/pdi/exemplo/cursos/md-1-section",
+                    "time": "",
+                    "onboarding": false,
+                    "desirable": true,
+                    "buttonText": "Ver curso"
+                },
+                {
+                    "type": "manual",
+                    "name": "Exemplo 3 - Markdown com imagem e vídeo",
+                    "description": "Exemplo de curso interno com apenas UMA seção e sem campo duration.",
+                    "courseId": "git-pratico",
+                    "coursePath": "areas/pdi/exemplo/cursos/md-with-medias",
+                    "time": "",
+                    "onboarding": false,
+                    "desirable": true,
+                    "buttonText": "Ver curso"
+                },
+                {
+                    "name": "Exemplo de curso sem um link",
+                    "description": "Conhecimento intermediário necessário",
+                    "folder": "interno-multi-secoes",
+                    "time": "",
+                    "onboarding": true,
+                    "desirable": false
+                },
+                {
+                    "name": "Curso de Git",
+                    "description": "Exemplo de curso externo com botão de ação visível (link).",
+                    "link": "https://www.youtube.com/watch?v=xEKo29OWILE&list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA",
+                    "showButton": true,
+                    "time": "3h",
+                    "onboarding": false,
+                    "desirable": false
+                }
+            ]
+        },
+        {
+            "id": "pdi-qualidade-git",
+            "name": "Git",
+            "icon": "",
+            "description": "Funcionalidades, comandos e utilização do Git",
+            "onboarding": true,
+            "courses": [
+                {
+                    "name": "Curso de Git",
+                    "link": "https://www.youtube.com/watch?v=xEKo29OWILE&list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA",
+                    "onboarding": true
+                }
+            ]
+        }
+    ]
+}

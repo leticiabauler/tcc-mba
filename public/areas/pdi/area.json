@@ -4,6 +4,7 @@
   "icon": "💻",
   "teams": [
     "desktop/team.json",
+    "exemplo/team.json",
     "modelos/team.json",
     "pmo/team.json",
     "produtos-digitais/team.json",

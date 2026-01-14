@@ -1,0 +1,13 @@
+{
+    "id": "curso-basico",
+    "title": "Curso Básico - Exemplo Mínimo",
+    "description": "Exemplo de curso com configuração mínima obrigatória",
+    "sections": [
+        {
+            "id": "secao-unica",
+            "title": "Conteúdo",
+            "type": "markdown",
+            "content": "conteudo.md"
+        }
+    ]
+}

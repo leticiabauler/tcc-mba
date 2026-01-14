@@ -44,12 +44,22 @@ async function discoverAreas() {
             }
             
             const areaConfig = await response.json();
+
+            // Determine if running locally (localhost, 127.0.0.1 or file protocol)
+            const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || window.location.hostname === '');
+
+            // Clone team list and, when not local, remove the example team to avoid showing it in production
+            let teamFiles = Array.isArray(areaConfig.teams) ? areaConfig.teams.slice() : [];
+            if (!isLocal) {
+                teamFiles = teamFiles.filter(t => !t.includes('exemplo'));
+            }
+
             areas.push({
                 folder: folder,
                 name: areaConfig.name,
                 description: areaConfig.description,
                 icon: areaConfig.icon,
-                teamFiles: areaConfig.teams
+                teamFiles: teamFiles
             });
         } catch (error) {
             console.warn(`Erro ao carregar área ${folder}:`, error);
@@ -315,29 +325,37 @@ function renderCourses() {
         }
 
         const courseDescription = course.description ? `<p class="course-description">${course.description}</p>` : '';
-        const courseEstimatedTime = course.time ? `<p class="course-time">⏳ ${course.time}</p>` : '';
+        const courseEstimatedTime = (course.duration || course.time) ? `<p class="course-time">⏳ ${course.duration || course.time}</p>` : '';
         const buttonText = course.buttonText || "Acessar curso";
 
         // Generate course deeplink
         const courseDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, course);
 
         let linkButton = '';
-        
+
         if (course.type === 'manual' && course.coursePath) {
-            // Manual course - open modal
+            // Manual course - open modal (keep original behaviour)
             linkButton = `
                 <button class="course-link" onclick='openManualCourse(${JSON.stringify(course).replace(/'/g, "&apos;")})'>
                     ${buttonText} →
                 </button>
             `;
         } else if (course.link) {
-            // External course - open info modal
+            // External course - open the link directly in a new tab (no modal)
+            const safeLink = course.link.replace(/'/g, "%27");
             linkButton = `
-                <button class="course-link" onclick='openExternalCourseModal(${JSON.stringify(course).replace(/'/g, "&apos;")})'>
+                <a class="course-link" href="${safeLink}" target="_blank" rel="noopener noreferrer">
                     ${buttonText} →
-                </button>
+                </a>
             `;
+        } else {
+            // No direct action (internal indicator or simple reference) - do not show action button
+            linkButton = '';
         }
+
+        // Show copy button only when there is something to deep-link to (external link, internal folder or manual course)
+        const showCopy = Boolean(course.link || course.folder || course.coursePath);
+        const copyButtonHtml = showCopy ? `<button class="copy-course-link-btn" onclick="copyDeeplinkToClipboard('${courseDeeplink}')" title="Copiar link do curso">🔗</button>` : '';
 
         courseCard.innerHTML = `
             <div class="course-header-row">
@@ -349,9 +367,7 @@ function renderCourses() {
             ${courseEstimatedTime}
             <div class="course-actions">
                 ${linkButton}
-                <button class="copy-course-link-btn" onclick="copyDeeplinkToClipboard('${courseDeeplink}')" title="Copiar link do curso">
-                    🔗
-                </button>
+                ${copyButtonHtml}
             </div>
         `;
 
@@ -637,8 +653,74 @@ async function loadMarkdownSection(section, contentArea) {
     if (markdownParser) {
         htmlContent = markdownParser.parse(markdownText);
     }
+      // Fix relative image paths
+    htmlContent = fixImagePaths(htmlContent, currentCourseData.basePath);
+    
+    // Fix relative video paths
+    htmlContent = fixVideoPaths(htmlContent, currentCourseData.basePath);
+
+    // Ensure all anchors open in a new tab and have rel="noopener noreferrer"
+    // Add target and rel only when not already present
+    htmlContent = htmlContent.replace(/<a\s+([^>]*?)href=(['\"])(.*?)\2([^>]*)>/gi, (match, beforeAttrs, q, href, afterAttrs) => {
+        const attrs = `${beforeAttrs} ${afterAttrs}`.trim();
+        // If target already exists, leave unchanged
+        if (/target\s*=\s*/i.test(attrs)) return match;
+        // Build new anchor tag with target and rel
+        return `<a ${beforeAttrs}href=${q}${href}${q}${afterAttrs} target="_blank" rel="noopener noreferrer">`;
+    });
     
     contentArea.innerHTML = `<div class="markdown-content">${htmlContent}</div>`;
+}
+
+function fixImagePaths(htmlContent, basePath) {
+    // Replace relative image paths with absolute paths
+    // Matches: <img src="path/to/image.png"> or <img src="../path/to/image.png">
+    return htmlContent.replace(/<img([^>]*?)src=["']([^"']+)["']([^>]*?)>/gi, (match, before, src, after) => {
+        // Skip if already absolute (starts with http://, https://, or /)
+        if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/')) {
+            return match;
+        }
+        
+        // Convert relative path to absolute
+        // Remove ../ from the path and use basePath directly
+        const cleanSrc = src.replace(/^(\.\.\/)+/, '');
+        const absoluteSrc = `${basePath}/${cleanSrc}`;
+        
+        return `<img${before}src="${absoluteSrc}"${after}>`;
+    });
+}
+
+function fixVideoPaths(htmlContent, basePath) {
+    // Replace relative video source paths with absolute paths
+    // Matches: <source src="video.mp4"> inside <video> tags
+    htmlContent = htmlContent.replace(/<source([^>]*?)src=["']([^"']+)["']([^>]*?)>/gi, (match, before, src, after) => {
+        // Skip if already absolute (starts with http://, https://, or /)
+        if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('/')) {
+            return match;
+        }
+        
+        // Convert relative path to absolute
+        const cleanSrc = src.replace(/^(\.\.\/)+/, '');
+        const absoluteSrc = `${basePath}/${cleanSrc}`;
+        
+        return `<source${before}src="${absoluteSrc}"${after}>`;
+    });
+    
+    // Also fix poster attribute in video tags
+    htmlContent = htmlContent.replace(/<video([^>]*?)poster=["']([^"']+)["']([^>]*?)>/gi, (match, before, poster, after) => {
+        // Skip if already absolute
+        if (poster.startsWith('http://') || poster.startsWith('https://') || poster.startsWith('/')) {
+            return match;
+        }
+        
+        // Convert relative path to absolute
+        const cleanPoster = poster.replace(/^(\.\.\/)+/, '');
+        const absolutePoster = `${basePath}/${cleanPoster}`;
+        
+        return `<video${before}poster="${absolutePoster}"${after}>`;
+    });
+    
+    return htmlContent;
 }
 
 async function loadVideoSection(section, contentArea) {
