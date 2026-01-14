@@ -1,0 +1,34 @@
+{
+    "id": "git-pratico",
+    "title": "Git na Prática",
+    "description": "Aprenda Git com exemplos práticos do dia a dia",
+    "duration": "1.5 horas",
+    "author": "Equipe PDI",
+    "lastUpdate": "2026-01-14",
+    "sections": [
+        {
+            "id": "conceitos-basicos",
+            "title": "Conceitos Básicos",
+            "type": "markdown",
+            "content": "conceitos-basicos.md"
+        },
+        {
+            "id": "comandos-essenciais",
+            "title": "Comandos Essenciais",
+            "type": "markdown",
+            "content": "comandos-essenciais.md"
+        },
+        {
+            "id": "workflow-diario",
+            "title": "Workflow Diário",
+            "type": "markdown",
+            "content": "workflow-diario.md"
+        },
+        {
+            "id": "resolucao-conflitos",
+            "title": "Resolução de Conflitos",
+            "type": "markdown",
+            "content": "resolucao-conflitos.md"
+        }
+    ]
+}
