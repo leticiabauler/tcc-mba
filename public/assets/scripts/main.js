@@ -407,7 +407,7 @@ function goToHome() {
 }
 
 // Manual Course Functions
-async function openManualCourse(course) {
+async function openManualCourse(course, sectionIndex = 0) {
     try {
         // Load course data - coursePath now points to the folder, add curso.json
         const courseJsonPath = `${course.coursePath}/curso.json`;
@@ -416,16 +416,32 @@ async function openManualCourse(course) {
         
         currentCourseData = await response.json();
         currentCourseData.basePath = course.coursePath; // Store base path for loading sections
-        currentCourseSection = 0;
+        
+        // Validar índice da seção
+        if (sectionIndex !== null && sectionIndex !== undefined) {
+            if (sectionIndex < 0 || sectionIndex >= currentCourseData.sections.length) {
+                console.warn('Índice de seção inválido:', sectionIndex, 'usando 0');
+                sectionIndex = 0;
+            }
+            currentCourseSection = sectionIndex;
+        } else {
+            currentCourseSection = 0;
+        }
         
         // Create modal
         createCourseModal();
         
-        // Load first section
-        await loadCourseSection(0);
+        // Load specified section
+        await loadCourseSection(currentCourseSection);
         
-        // Update URL with deeplink
-        const courseDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, course);
+        // Update URL with deeplink (incluindo seção se não for a primeira)
+        const courseDeeplink = generateDeeplink(
+            selectedArea, 
+            selectedTeam, 
+            selectedTrack, 
+            course,
+            currentCourseSection > 0 ? currentCourseSection : null
+        );
         window.history.pushState({}, '', courseDeeplink);
         
     } catch (error) {
@@ -481,11 +497,16 @@ function createCourseModal() {
     if (currentCourseData.lastUpdate) {
         metaItems.push(`<span>📅 ${formatDate(currentCourseData.lastUpdate)}</span>`);
     }
-    
-    const metaHtml = metaItems.length > 0 
+      const metaHtml = metaItems.length > 0 
         ? `<div class="course-modal-meta">${metaItems.join('')}</div>` 
         : '';
-      modal.innerHTML = `
+    
+    // Verifica se tem múltiplas seções para mostrar o sidebar
+    const hasMultipleSections = currentCourseData.sections && currentCourseData.sections.length > 1;
+    const sidebarClass = hasMultipleSections ? '' : ' hidden';
+    const contentClass = hasMultipleSections ? '' : ' full-width';
+      
+    modal.innerHTML = `
         <div class="course-modal-content">
             <div class="course-modal-header">
                 <div class="course-modal-title-area">
@@ -494,7 +515,7 @@ function createCourseModal() {
                         <div class="course-modal-badges-and-share">
                             ${badgesHtml}
                             <button class="share-course-btn-inline" onclick="copyDeeplinkToClipboard('${courseDeeplink}')">
-                                🔗 Copiar link
+                                🔗 Copiar link do curso
                             </button>
                         </div>
                     </div>
@@ -503,8 +524,8 @@ function createCourseModal() {
                 <button class="course-modal-close" onclick="closeCourseModal()">×</button>
             </div>
             <div class="course-modal-body">
-                <div class="course-modal-sidebar" id="courseSidebar"></div>
-                <div class="course-modal-content-area" id="courseContent"></div>
+                <div class="course-modal-sidebar${sidebarClass}" id="courseSidebar"></div>
+                <div class="course-modal-content-area${contentClass}" id="courseContent"></div>
             </div>
         </div>
     `;
@@ -545,9 +566,23 @@ function renderCourseSidebar() {
             item.classList.add('active');
         }
         
+        // Gerar deeplink da seção
+        const sectionDeeplink = generateDeeplink(
+            selectedArea,
+            selectedTeam,
+            selectedTrack,
+            { courseId: currentCourseData.id },
+            index
+        );
+        
         item.innerHTML = `
-            <div class="course-section-number">Seção ${index + 1}</div>
-            <div class="course-section-title">${section.title}</div>
+            <div class="course-section-content">
+                <div class="course-section-number">Seção ${index + 1}</div>
+                <div class="course-section-title">${section.title}</div>
+            </div>
+            <button class="copy-section-link-btn" onclick="event.stopPropagation(); copyDeeplinkToClipboard('${sectionDeeplink}')" title="Copiar link desta seção">
+                🔗
+            </button>
         `;
         
         item.onclick = () => loadCourseSection(index);
@@ -798,34 +833,36 @@ function processDeeplink() {
     console.log('Hash parts:', parts);
     
     if (parts[0] === '' && parts[1] === 'area' && parts.length >= 3) {
-        // Format: #/area/AreaName/TeamName/trackId/courseId
+        // Format: #/area/AreaName/TeamName/trackId/courseId/section/0
         const areaName = decodeURIComponent(parts[2]);
         const teamName = parts.length >= 4 ? decodeURIComponent(parts[3]) : null;
         const trackId = parts.length >= 5 ? decodeURIComponent(parts[4]) : null;
         const courseId = parts.length >= 6 ? decodeURIComponent(parts[5]) : null;
+        const sectionIndex = parts.length >= 8 && parts[6] === 'section' ? parseInt(parts[7]) : null;
         
-        console.log('Decoded params:', { areaName, teamName, trackId, courseId });
+        console.log('Decoded params:', { areaName, teamName, trackId, courseId, sectionIndex });
         
-        navigateToDeeplink(areaName, teamName, trackId, courseId);
+        navigateToDeeplink(areaName, teamName, trackId, courseId, sectionIndex);
     } else if (parts[0] === 'area' && parts.length >= 2) {
-        // Alternative format: #area/AreaName/TeamName/trackId/courseId
+        // Alternative format: #area/AreaName/TeamName/trackId/courseId/section/0
         const areaName = decodeURIComponent(parts[1]);
         const teamName = parts.length >= 3 ? decodeURIComponent(parts[2]) : null;
         const trackId = parts.length >= 4 ? decodeURIComponent(parts[3]) : null;
         const courseId = parts.length >= 5 ? decodeURIComponent(parts[4]) : null;
+        const sectionIndex = parts.length >= 7 && parts[5] === 'section' ? parseInt(parts[6]) : null;
         
-        console.log('Decoded params (alt format):', { areaName, teamName, trackId, courseId });
+        console.log('Decoded params (alt format):', { areaName, teamName, trackId, courseId, sectionIndex });
         
-        navigateToDeeplink(areaName, teamName, trackId, courseId);
+        navigateToDeeplink(areaName, teamName, trackId, courseId, sectionIndex);
     } else {
         console.log('❌ Invalid deeplink format:', parts);
         console.log('Expected format: #/area/AreaName/TeamName/trackId or #area/AreaName/TeamName/trackId');
     }
 }
 
-function navigateToDeeplink(areaName, teamName, trackId, courseId) {
+function navigateToDeeplink(areaName, teamName, trackId, courseId, sectionIndex = null) {
     console.log('=== NAVIGATING TO DEEPLINK ===');
-    console.log('Raw params:', { areaName, teamName, trackId, courseId });
+    console.log('Raw params:', { areaName, teamName, trackId, courseId, sectionIndex });
     console.log('Areas data loaded:', areasData.length, 'areas');
     
     // Debug: show all available areas
@@ -897,8 +934,7 @@ function navigateToDeeplink(areaName, teamName, trackId, courseId) {
             
             expandArea(areaIndex);
             expandTeam(areaIndex, teamIndex);
-            selectTrackInUI(track);
-            renderCourses();            // Open specific course if provided
+            selectTrackInUI(track);            renderCourses();            // Open specific course if provided
             if (courseId) {
                 console.log('Looking for course:', courseId);
                 console.log('Available courses:', track.courses.map(c => ({
@@ -915,8 +951,8 @@ function navigateToDeeplink(areaName, teamName, trackId, courseId) {
                     }
                     
                     if (course && course.type === 'manual') {
-                        console.log('✅ Opening manual course:', course.name);
-                        openManualCourse(course);
+                        console.log('✅ Opening manual course:', course.name, 'at section:', sectionIndex);
+                        openManualCourse(course, sectionIndex);
                     } else if (course && course.link) {
                         console.log('✅ Opening external course modal:', course.name);
                         openExternalCourseModal(course);
@@ -973,7 +1009,7 @@ function selectTrackInUI(track) {
 }
 
 // Generate deeplink
-function generateDeeplink(area, team, track, course = null) {
+function generateDeeplink(area, team, track, course = null, sectionIndex = null) {
     let link = `#/area/${encodeURIComponent(area.name)}`;
     if (team) link += `/${encodeURIComponent(team.name)}`;
     if (track) link += `/${encodeURIComponent(track.id)}`;
@@ -981,6 +1017,11 @@ function generateDeeplink(area, team, track, course = null) {
         // Use courseId if available, otherwise generate from course name
         const courseIdToUse = course.courseId || generateCourseId(course.name);
         link += `/${encodeURIComponent(courseIdToUse)}`;
+        
+        // Adicionar índice da seção se fornecido
+        if (sectionIndex !== null && sectionIndex !== undefined) {
+            link += `/section/${sectionIndex}`;
+        }
     }
     return window.location.origin + window.location.pathname + link;
 }
