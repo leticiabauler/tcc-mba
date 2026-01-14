@@ -380,14 +380,42 @@ function toggleSidebar() {
     toggleBtn.classList.toggle('show');
 }
 
+// Go to home - reset view
+function goToHome() {
+    // Clear selections
+    selectedArea = null;
+    selectedTeam = null;
+    selectedTrack = null;
+    
+    // Collapse all areas and teams
+    document.querySelectorAll('.area-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.team-button').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.track-item').forEach(item => item.classList.remove('active'));
+    document.querySelectorAll('.teams-container').forEach(container => container.classList.remove('expanded'));
+    document.querySelectorAll('.tracks-tree').forEach(tree => tree.classList.remove('expanded'));
+    
+    // Clear URL hash
+    window.location.hash = '';
+    
+    // Show empty state
+    showEmptyState();
+    
+    // Close sidebar on mobile
+    if (window.innerWidth <= 968) {
+        toggleSidebar();
+    }
+}
+
 // Manual Course Functions
 async function openManualCourse(course) {
     try {
-        // Load course data
-        const response = await fetch(course.coursePath);
+        // Load course data - coursePath now points to the folder, add curso.json
+        const courseJsonPath = `${course.coursePath}/curso.json`;
+        const response = await fetch(courseJsonPath);
         if (!response.ok) throw new Error('Erro ao carregar curso');
         
         currentCourseData = await response.json();
+        currentCourseData.basePath = course.coursePath; // Store base path for loading sections
         currentCourseSection = 0;
         
         // Create modal
@@ -422,19 +450,55 @@ function createCourseModal() {
         { courseId: currentCourseData.id }
     );
     
-    modal.innerHTML = `
+    // Buscar informações do curso atual na trilha para badges
+    let currentCourseInfo = null;
+    if (selectedTrack && selectedTrack.courses) {
+        currentCourseInfo = selectedTrack.courses.find(c => 
+            c.courseId === currentCourseData.id || 
+            generateCourseId(c.name) === currentCourseData.id
+        );
+    }
+    
+    // Gerar badges se o curso for obrigatório ou desejável
+    let badgesHtml = '';
+    if (currentCourseInfo) {
+        if (currentCourseInfo.onboarding) {
+            badgesHtml += '<span class="modal-badge onboarding-badge-modal">🚩 Obrigatório</span>';
+        }
+        if (currentCourseInfo.desirable) {
+            badgesHtml += '<span class="modal-badge desirable-badge-modal">✨ Desejável</span>';
+        }
+    }
+    
+    // Construir metadados opcionais
+    let metaItems = [];
+    if (currentCourseData.duration) {
+        metaItems.push(`<span>⏱️ ${currentCourseData.duration}</span>`);
+    }
+    if (currentCourseData.author) {
+        metaItems.push(`<span>👤 ${currentCourseData.author}</span>`);
+    }
+    if (currentCourseData.lastUpdate) {
+        metaItems.push(`<span>📅 ${formatDate(currentCourseData.lastUpdate)}</span>`);
+    }
+    
+    const metaHtml = metaItems.length > 0 
+        ? `<div class="course-modal-meta">${metaItems.join('')}</div>` 
+        : '';
+      modal.innerHTML = `
         <div class="course-modal-content">
             <div class="course-modal-header">
                 <div class="course-modal-title-area">
-                    <h2>${currentCourseData.title}</h2>
-                    <div class="course-modal-meta">
-                        <span>⏱️ ${currentCourseData.duration}</span>
-                        <span>👤 ${currentCourseData.author}</span>
-                        <span>📅 ${formatDate(currentCourseData.lastUpdate)}</span>
+                    <div class="course-modal-title-row">
+                        <h2>${currentCourseData.title}</h2>
+                        <div class="course-modal-badges-and-share">
+                            ${badgesHtml}
+                            <button class="share-course-btn-inline" onclick="copyDeeplinkToClipboard('${courseDeeplink}')">
+                                🔗 Copiar link
+                            </button>
+                        </div>
                     </div>
-                    <button class="share-course-btn" onclick="copyDeeplinkToClipboard('${courseDeeplink}')">
-                        🔗 Copiar link do curso
-                    </button>
+                    ${metaHtml}
                 </div>
                 <button class="course-modal-close" onclick="closeCourseModal()">×</button>
             </div>
@@ -526,8 +590,7 @@ async function loadCourseSection(index) {
 }
 
 async function loadMarkdownSection(section, contentArea) {
-    const coursePath = currentCourseData.sections[0].content.split('/').slice(0, -1).join('/');
-    const fullPath = `areas/pdi/cursos/${currentCourseData.id}/${section.content}`;
+    const fullPath = `${currentCourseData.basePath}/${section.content}`;
     
     const response = await fetch(fullPath);
     if (!response.ok) throw new Error('Erro ao carregar markdown');
@@ -544,8 +607,8 @@ async function loadMarkdownSection(section, contentArea) {
 }
 
 async function loadVideoSection(section, contentArea) {
-    const coursePath = `areas/pdi/cursos/${currentCourseData.id}/${section.content}`;
-    const posterPath = section.poster ? `areas/pdi/cursos/${currentCourseData.id}/${section.poster}` : '';
+    const coursePath = `${currentCourseData.basePath}/${section.content}`;
+    const posterPath = section.poster ? `${currentCourseData.basePath}/${section.poster}` : '';
     
     contentArea.innerHTML = `
         <div class="markdown-content">

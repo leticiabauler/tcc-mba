@@ -2,7 +2,7 @@
     "name": "Qualidade",
     "tracks": [
         {
-            "id": "pdi-qualidade-labview",
+            "id": "Labview",
             "name": "LabVIEW",
             "icon": "",
             "description": "Desenvolvimento de software com LabVIEW",
@@ -53,12 +53,11 @@
                 },                {
                     "name": "Requirements Gathering",
                     "link": "https://learn.ni.com/learning-paths/requirements"
-                },
-                {
+                },                {
                     "name": "Boas Práticas em LabVIEW",
                     "type": "manual",
                     "courseId": "labview-boas-praticas",
-                    "coursePath": "areas/pdi/cursos/labview-boas-praticas/curso.json",
+                    "coursePath": "areas/pdi/qualidade/cursos/labview-boas-praticas",
                     "description": "Aprenda as melhores práticas para desenvolvimento em LabVIEW",
                     "time": "2 horas",
                     "buttonText": "Abrir curso",
@@ -67,7 +66,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-git",
+            "id": "git",
             "name": "Git",
             "icon": "",
             "description": "Funcionalidades, comandos e utilização do Git",
@@ -76,12 +75,11 @@
                     "name": "Curso de Git",
                     "link": "https://www.youtube.com/watch?v=xEKo29OWILE&list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA",
                     "onboarding": true
-                },
-                {
+                },                {
                     "name": "Git na Prática",
                     "type": "manual",
                     "courseId": "git-pratico",
-                    "coursePath": "areas/pdi/cursos/git-pratico/curso.json",
+                    "coursePath": "areas/pdi/qualidade/cursos/git-pratico",
                     "description": "Aprenda Git com exemplos práticos do dia a dia",
                     "time": "1.5 horas",
                     "buttonText": "Abrir curso",
@@ -100,7 +98,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-data-base",
+            "id": "data-base",
             "name": "Banco de dados",
             "onboarding": true,
             "icon": "",
@@ -114,7 +112,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-http-method",
+            "id": "http-method",
             "name": "Método HTTP",
             "onboarding": true,
             "icon": "",
@@ -134,7 +132,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-communication-protocols",
+            "id": "communication-protocols",
             "name": "Protocolos de comunicação",
             "onboarding": true,
             "icon": "",
@@ -157,7 +155,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-transformers",
+            "id": "transformers",
             "name": "Transformadores",
             "onboarding": true,
             "icon": "",

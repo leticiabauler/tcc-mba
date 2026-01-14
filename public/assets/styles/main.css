@@ -87,6 +87,13 @@ body {
     color: var(--accent-color);
     font-weight: 300;
     margin-bottom: 5px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    user-select: none;
+}
+
+.sidebar-title:hover {
+    opacity: 0.8;
+    transform: translateX(2px);
 }
 
 .sidebar-subtitle {
@@ -328,8 +335,33 @@ body {
 
 .courses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(5, 1fr); /* 5 colunas fixas */
+    gap: 16px; /* Gap um pouco menor para caber melhor */
+}
+
+/* Responsivo: ajusta conforme tamanho da tela */
+@media (max-width: 1800px) {
+    .courses-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 1400px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1024px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .course-card {
@@ -519,10 +551,8 @@ body {
         padding: 80px 20px 20px 20px;
         width: 100%;
     }
-
-    .courses-grid {
-        grid-template-columns: 1fr;
-    }
+    
+    /* Grid responsivo já definido acima com .courses-grid */
 }
 
 /* Responsive adjustments for external course modal */
@@ -651,7 +681,79 @@ body {
 .course-modal-title-area h2 {
     font-size: 1.8em;
     color: var(--accent-color);
-    margin-bottom: 8px;
+    margin-bottom: 0;
+    line-height: 1.2;
+}
+
+/* Linha do título com badges e botão inline */
+.course-modal-title-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+/* Badges e botão inline no modal de curso manual */
+.course-modal-badges-and-share {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 28px; /* Garante altura mínima */
+}
+
+.course-modal-badges-and-share .modal-badge {
+    height: 28px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    border-radius: 6px;
+    font-size: 0.75em;
+    font-weight: 500;
+    margin: 0; /* Remove margens que podem desalinhar */
+    flex-shrink: 0; /* Previne encolhimento */
+}
+
+.course-modal-badges-and-share .onboarding-badge-modal {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.course-modal-badges-and-share .desirable-badge-modal {
+    background: rgba(16, 185, 129, 0.12);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.share-course-btn-inline {
+    height: 28px;
+    padding: 0 14px;
+    background: var(--accent-bg);
+    color: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.75em;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    line-height: 1;
+    margin: 0; /* Remove margens que podem desalinhar */
+    flex-shrink: 0; /* Previne encolhimento */
+}
+
+.share-course-btn-inline:hover {
+    background: var(--accent-color);
+    color: var(--bg-primary);
+    transform: translateY(-1px);
 }
 
 .course-modal-meta {
@@ -1095,9 +1197,9 @@ body {
 }
 
 .course-inline-badge.onboarding-inline {
-    background: rgba(239, 68, 68, 0.12);
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.25);
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .course-inline-badge.desirable-inline {

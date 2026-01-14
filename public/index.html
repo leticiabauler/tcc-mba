@@ -11,12 +11,10 @@
 
 <body>
     <div class="container">
-        <button class="toggle-sidebar-btn" id="toggleSidebar" onclick="toggleSidebar()">☰</button>
-
-        <aside class="sidebar" id="sidebar">
+        <button class="toggle-sidebar-btn" id="toggleSidebar" onclick="toggleSidebar()">☰</button>        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-header-text">
-                    <div class="sidebar-title">WTD - Treinamentos</div>
+                    <div class="sidebar-title" onclick="goToHome()" style="cursor: pointer;" title="Voltar ao início">WTD - Treinamentos</div>
                 </div>
                 <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
                     <span id="themeIcon">🌙</span>
