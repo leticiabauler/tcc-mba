@@ -1,0 +1,16 @@
+{
+    "id": "git-pratico",
+    "title": "Git na Prática",
+    "description": "Aprenda Git com exemplos práticos do dia a dia",
+    "duration": "1.5 horas",
+    "author": "Equipe PDI",
+    "lastUpdate": "2026-01-14",
+    "sections": [
+        {
+            "id": "resolucao-conflitos",
+            "title": "Resolução conflitos",
+            "type": "markdown",
+            "content": "resolucao-conflitos.md"
+        }
+    ]
+}

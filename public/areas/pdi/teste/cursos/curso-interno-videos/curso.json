@@ -1,0 +1,35 @@
+{
+    "id": "curso-interno-videos",
+    "title": "Curso Interno com Vídeos",
+    "description": "Aprenda a criar cursos combinando texto explicativo em Markdown com vídeos demonstrativos. O melhor dos dois mundos!",
+    "duration": "1.5 horas",
+    "author": "Equipe de Desenvolvimento",
+    "lastUpdate": "2026-01-14",
+    "sections": [
+        {
+            "id": "intro",
+            "title": "Introdução aos Vídeos",
+            "type": "markdown",
+            "content": "introducao.md"
+        },
+        {
+            "id": "video-demo",
+            "title": "Vídeo: Demonstração Prática",
+            "type": "video",
+            "content": "videos/demo.mp4",
+            "poster": "videos/demo-poster.jpg"
+        },
+        {
+            "id": "video-no-markdown",
+            "title": "Vídeos Dentro do Markdown",
+            "type": "markdown",
+            "content": "videos-no-markdown.md"
+        },
+        {
+            "id": "comparacao",
+            "title": "Quando Usar Cada Formato",
+            "type": "markdown",
+            "content": "comparacao.md"
+        }
+    ]
+}

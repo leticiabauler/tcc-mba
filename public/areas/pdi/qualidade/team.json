@@ -2,7 +2,7 @@
     "name": "Qualidade",
     "tracks": [
         {
-            "id": "pdi-qualidade-labview",
+            "id": "Labview",
             "name": "LabVIEW",
             "icon": "",
             "description": "Desenvolvimento de software com LabVIEW",
@@ -31,11 +31,13 @@
                 },
                 {
                     "name": "Continuous Integration",
-                    "link": "https://learn.ni.com/learning-paths/continuous-integration"
+                    "link": "https://learn.ni.com/learning-paths/continuous-integration",
+                    "desirable": true
                 },
                 {
                     "name": "Object-Oriented Design and Programming in LabVIEW",
-                    "link": "https://learn.ni.com/learn/learning-path/object-oriented-design-and-programming-in-labview-oop"
+                    "link": "https://learn.ni.com/learn/learning-path/object-oriented-design-and-programming-in-labview-oop",
+                    "desirable": true
                 },
                 {
                     "name": "Project Management",
@@ -52,25 +54,45 @@
                 {
                     "name": "Requirements Gathering",
                     "link": "https://learn.ni.com/learning-paths/requirements"
+                },
+                {
+                    "name": "Boas Práticas em LabVIEW",
+                    "type": "manual",
+                    "courseId": "labview-boas-praticas",
+                    "coursePath": "areas/pdi/qualidade/cursos/labview-boas-praticas",
+                    "description": "Aprenda as melhores práticas para desenvolvimento em LabVIEW",
+                    "time": "2 horas",
+                    "buttonText": "Abrir curso",
+                    "onboarding": true
                 }
             ]
         },
         {
-            "id": "pdi-qualidade-git",
+            "id": "git",
             "name": "Git",
             "icon": "",
             "description": "Funcionalidades, comandos e utilização do Git",
             "onboarding": true,
-            "courses": [                
+            "courses": [
                 {
                     "name": "Curso de Git",
                     "link": "https://www.youtube.com/watch?v=xEKo29OWILE&list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA",
                     "onboarding": true
                 },
                 {
+                    "name": "Git na Prática",
+                    "type": "manual",
+                    "courseId": "git-pratico",
+                    "coursePath": "areas/pdi/qualidade/cursos/git-pratico",
+                    "description": "Aprenda Git com exemplos práticos do dia a dia",
+                    "time": "1.5 horas",
+                    "buttonText": "Abrir curso",
+                    "desirable": true
+                },
+                {
                     "name": "Documentação Git",
                     "link": "https://git-scm.com/docs",
-                    "buttonText": "Acessar documentação"
+                    "buttonText": "Ver documentação"
                 },
                 {
                     "name": "Aprenda a usar branch \"jogando\"",
@@ -80,7 +102,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-data-base",
+            "id": "data-base",
             "name": "Banco de dados",
             "onboarding": true,
             "icon": "",
@@ -94,7 +116,7 @@
             ]
         },
         {
-            "id": "pdi-qualidade-http-method",
+            "id": "http-method",
             "name": "Método HTTP",
             "onboarding": true,
             "icon": "",
@@ -108,13 +130,12 @@
                 {
                     "name": "Documentação HTTP",
                     "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP",
-                    "buttonText": "Acessar documentação"
+                    "buttonText": "Ver documentação"
                 }
-                
             ]
         },
         {
-            "id": "pdi-qualidade-communication-protocols",
+            "id": "communication-protocols",
             "name": "Protocolos de comunicação",
             "onboarding": true,
             "icon": "",
@@ -137,16 +158,18 @@
             ]
         },
         {
-            "id": "pdi-qualidade-transformers",
+            "id": "transformers",
             "name": "Transformadores",
-            "onboarding": true,
+            "onboarding": false,
+            "desirable": true,
             "icon": "",
             "description": "Cursos sobre os transformadores WEG",
             "courses": [
                 {
                     "name": "DT-11 - Transformadores",
                     "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-11%20Transformadores?csf=1&web=1&e=rWvKAQ",
-                    "onboarding": true
+                    "onboarding": false,
+                    "desirable": true
                 },
                 {
                     "name": "DT-20 - Seccionadores",
@@ -159,7 +182,8 @@
                 {
                     "name": "DT-35 - TPs e TCs (Balteau)",
                     "link": "https://weg365.sharepoint.com/:f:/r/teams/BR-WTD-DIRVENDAS-DEPTMKT/Apresentaes%20de%20Treinamentos%20de%20Clientes/DT-35%20TP%20e%20TC%20Balteau?csf=1&web=1&e=dGUlXg",
-                    "onboarding": true
+                    "onboarding": false,
+                    "desirable": true
                 }
             ]
         }

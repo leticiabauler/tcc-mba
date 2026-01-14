@@ -1,0 +1,46 @@
+{
+    "id": "curso-interno-markdown",
+    "title": "Curso Interno Completo - Markdown",
+    "description": "Este curso demonstra todas as possibilidades de formatação Markdown, incluindo textos, listas, código, tabelas, imagens e muito mais.",
+    "duration": "2 horas",
+    "author": "Equipe de Desenvolvimento",
+    "lastUpdate": "2026-01-14",
+    "sections": [
+        {
+            "id": "introducao",
+            "title": "Introdução ao Curso",
+            "type": "markdown",
+            "content": "introducao.md"
+        },
+        {
+            "id": "formatacao-basica",
+            "title": "Formatação Básica",
+            "type": "markdown",
+            "content": "formatacao-basica.md"
+        },
+        {
+            "id": "listas-tabelas",
+            "title": "Listas e Tabelas",
+            "type": "markdown",
+            "content": "listas-tabelas.md"
+        },
+        {
+            "id": "codigo",
+            "title": "Blocos de Código",
+            "type": "markdown",
+            "content": "codigo.md"
+        },
+        {
+            "id": "imagens",
+            "title": "Trabalhando com Imagens",
+            "type": "markdown",
+            "content": "imagens.md"
+        },
+        {
+            "id": "conclusao",
+            "title": "Conclusão e Próximos Passos",
+            "type": "markdown",
+            "content": "conclusao.md"
+        }
+    ]
+}

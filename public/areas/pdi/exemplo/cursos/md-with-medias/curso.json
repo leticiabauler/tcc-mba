@@ -1,0 +1,22 @@
+{
+    "id": "git-pratico",
+    "title": "Git na Prática",
+    "description": "Aprenda Git com exemplos práticos do dia a dia",
+    "duration": "",
+    "author": "",
+    "lastUpdate": "",
+    "sections": [
+        {
+            "id": "video",
+            "title": "Vídeo",
+            "type": "markdown",
+            "content": "video.md"
+        },
+        {
+            "id": "image",
+            "title": "Imagem",
+            "type": "markdown",
+            "content": "image.md"
+        }
+    ]
+}
