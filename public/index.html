@@ -11,13 +11,15 @@
 
 <body>
     <div class="container">
-        <button class="toggle-sidebar-btn" id="toggleSidebar" onclick="toggleSidebar()">☰</button>        <aside class="sidebar" id="sidebar">
+        <button class="toggle-sidebar-btn" id="toggleSidebar" onclick="toggleSidebar()">☰</button>        
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-header-text">
                     <div class="sidebar-title" onclick="goToHome()" style="cursor: pointer;" title="Voltar ao início">WTD - Treinamentos</div>
                 </div>
-                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
-                    <span id="themeIcon">🌙</span>
+                <!-- Collapse/Expand round button moved into header (replaces theme button) -->
+                <button id="sidebarCollapseBtn" class="sidebar-collapse-btn" onclick="toggleSidebar()" title="Recolher/Expandir barra lateral">
+                    <span id="sidebarCollapseBtnIcon">◀</span>
                 </button>
             </div>
             <div class="tree-section" id="treeSection">
@@ -26,6 +28,8 @@
                     <div class="empty-text">Carregando áreas...</div>
                 </div>
             </div>
+            <!-- Fixed footer -->
+            <div class="sidebar-footer">Desenvolvido por PDI e Produtos Digitais</div>
         </aside>
 
         <main class="main-content" id="mainContent">
@@ -33,7 +37,14 @@
                 <div class="empty-icon">📚</div>
                 <div class="empty-title">Bem-vindo</div>
                 <div class="empty-text">Selecione uma área na barra lateral para começar</div>
-            </div>        </main>    </div>
+            </div>        
+        </main>    
+    </div>
+
+    <!-- Global theme toggle (fixed at top-right) -->
+    <button class="theme-toggle global-theme-toggle" id="globalThemeToggle" onclick="toggleTheme()" title="Alternar tema">
+        <span id="themeIcon">🌙</span>
+    </button>
 
     <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
