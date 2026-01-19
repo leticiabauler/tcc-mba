@@ -754,6 +754,15 @@ body {
         display: block;
     }
 
+    /* Hide the round collapse button when sidebar is collapsed on mobile */
+    .sidebar.collapsed .sidebar-collapse-btn {
+        display: none !important;
+    }
+    /* Hide the ☰ button when sidebar is expanded on mobile */
+    .sidebar:not(.collapsed) ~ .toggle-sidebar-btn {
+        display: none !important;
+    }
+
     .main-content {
         padding: 80px 20px 20px 20px;
         width: 100%;

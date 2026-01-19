@@ -72,7 +72,7 @@
                 {
                     "name": "Documentação Git",
                     "link": "https://git-scm.com/docs",
-                    "buttonText": "Ver documentação"
+                    "buttonText": "Documentação"
                 },
                 {
                     "name": "Aprenda a usar branch \"jogando\"",
@@ -110,7 +110,7 @@
                 {
                     "name": "Documentação HTTP",
                     "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP",
-                    "buttonText": "Ver documentação"
+                    "buttonText": "Documentação"
                 }
             ]
         },
