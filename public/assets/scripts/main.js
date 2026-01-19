@@ -439,7 +439,9 @@ function createCourseModal() {
     modal.id = 'courseModal';
     modal.className = 'course-modal';
 
-    const courseDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, { courseId: currentCourseData.id });
+    const courseDeeplink = currentCourseInfo
+        ? generateDeeplink(selectedArea, selectedTeam, selectedTrack, currentCourseInfo)
+        : generateDeeplink(selectedArea, selectedTeam, selectedTrack, { courseId: currentCourseData.id, name: currentCourseData.title || currentCourseData.name });
 
     let currentCourseInfo = null;
     if (selectedTrack && selectedTrack.courses) {
@@ -503,7 +505,9 @@ function renderCourseSidebar() {
         item.className = 'course-section-item';
         if (index === currentCourseSection) item.classList.add('active');
 
-        const sectionDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, { courseId: currentCourseData.id }, index);
+        const sectionDeeplink = currentCourseInfo
+            ? generateDeeplink(selectedArea, selectedTeam, selectedTrack, currentCourseInfo, index)
+            : generateDeeplink(selectedArea, selectedTeam, selectedTrack, { courseId: currentCourseData.id, name: currentCourseData.title || currentCourseData.name }, index);
 
         item.innerHTML = `
             <div class="course-section-content">
@@ -789,7 +793,8 @@ function generateDeeplink(area, team, track, course = null, sectionIndex = null)
     if (team) link += `/${encodeURIComponent(team.name)}`;
     if (track) link += `/${encodeURIComponent(track.id)}`;
     if (course) {
-        const courseIdToUse = course.courseId || generateCourseId(course.name);
+        // Always generate a slug from the course name if no id/slug is present
+        let courseIdToUse = course.courseId || course.id || generateCourseId(course.name);
         link += `/${encodeURIComponent(courseIdToUse)}`;
         if (sectionIndex !== null && sectionIndex !== undefined) link += `/section/${sectionIndex}`;
     }
@@ -801,7 +806,13 @@ function generateCourseId(courseName) {
 }
 
 function copyDeeplinkToClipboard(deeplink) {
-    navigator.clipboard.writeText(deeplink).then(() => showNotification('Link copiado para a área de transferência! 🔗')).catch(err => { console.error('Erro ao copiar link:', err); showNotification('Erro ao copiar link ❌'); });
+    // Sempre copia o link completo (domínio + hash)
+    navigator.clipboard.writeText(deeplink)
+        .then(() => showNotification('Link copiado para a área de transferência! 🔗'))
+        .catch(err => {
+            console.error('Erro ao copiar link:', err);
+            showNotification('Erro ao copiar link ❌');
+        });
 }
 
 function showNotification(message) {
