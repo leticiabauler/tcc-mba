@@ -328,15 +328,17 @@ function renderCourses() {
         const courseEstimatedTime = (course.duration || course.time) ? `<p class="course-time">⏳ ${course.duration || course.time}</p>` : '';
         const buttonText = course.buttonText || "Acessar curso";
 
-        // Generate course deeplink
-        const courseDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, course);
+        // Always generate a courseId for deeplink (for both manual and external)
+        let courseId = course.courseId || generateCourseId(course.name);
+        // Generate course deeplink always with courseId
+        const courseDeeplink = generateDeeplink(selectedArea, selectedTeam, selectedTrack, { ...course, courseId });
 
         let linkButton = '';
 
         if (course.type === 'manual' && course.coursePath) {
             // Manual course - open modal (keep original behaviour)
             linkButton = `
-                <button class="course-link" onclick='openManualCourse(${JSON.stringify(course).replace(/'/g, "&apos;")})'>
+                <button class="course-link" onclick='openManualCourse(${JSON.stringify({ ...course, courseId }).replace(/'/g, "&apos;")})'>
                     ${buttonText} →
                 </button>
             `;
@@ -391,10 +393,54 @@ function showEmptyState() {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
+    const collapseBtn = document.getElementById('sidebarCollapseBtn');
+    const collapseIcon = document.getElementById('sidebarCollapseBtnIcon');
 
     sidebar.classList.toggle('collapsed');
-    toggleBtn.classList.toggle('show');
+
+    // Mobile: show ☰ only when sidebar is collapsed
+    if (window.innerWidth <= 968) {
+        if (sidebar.classList.contains('collapsed')) {
+            toggleBtn.style.display = 'block';
+            if (collapseBtn) collapseBtn.style.display = 'none';
+        } else {
+            toggleBtn.style.display = 'none';
+            if (collapseBtn) collapseBtn.style.display = 'flex';
+        }
+    } else {
+        // Desktop: always show collapse button, never ☰
+        toggleBtn.style.display = 'none';
+        if (collapseBtn) collapseBtn.style.display = 'flex';
+    }
+
+    // Update arrow direction
+    if (collapseIcon) {
+        if (sidebar.classList.contains('collapsed')) {
+            collapseIcon.textContent = '▶';
+        } else {
+            collapseIcon.textContent = '◀';
+        }
+    }
 }
+
+// On resize, ensure correct button visibility
+window.addEventListener('resize', () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const collapseBtn = document.getElementById('sidebarCollapseBtn');
+    if (window.innerWidth <= 968) {
+        if (sidebar.classList.contains('collapsed')) {
+            toggleBtn.style.display = 'block';
+            if (collapseBtn) collapseBtn.style.display = 'none';
+        } else {
+            toggleBtn.style.display = 'none';
+            if (collapseBtn) collapseBtn.style.display = 'flex';
+        }
+    } else {
+        toggleBtn.style.display = 'none';
+        if (collapseBtn) collapseBtn.style.display = 'flex';
+    }
+});
 
 // Go to home - reset view
 function goToHome() {

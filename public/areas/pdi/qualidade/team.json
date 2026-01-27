@@ -54,16 +54,6 @@
                 {
                     "name": "Requirements Gathering",
                     "link": "https://learn.ni.com/learning-paths/requirements"
-                },
-                {
-                    "name": "Boas Práticas em LabVIEW",
-                    "type": "manual",
-                    "courseId": "labview-boas-praticas",
-                    "coursePath": "areas/pdi/qualidade/cursos/labview-boas-praticas",
-                    "description": "Aprenda as melhores práticas para desenvolvimento em LabVIEW",
-                    "time": "2 horas",
-                    "buttonText": "Abrir curso",
-                    "onboarding": true
                 }
             ]
         },
@@ -78,21 +68,11 @@
                     "name": "Curso de Git",
                     "link": "https://www.youtube.com/watch?v=xEKo29OWILE&list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA",
                     "onboarding": true
-                },
-                {
-                    "name": "Git na Prática",
-                    "type": "manual",
-                    "courseId": "git-pratico",
-                    "coursePath": "areas/pdi/qualidade/cursos/git-pratico",
-                    "description": "Aprenda Git com exemplos práticos do dia a dia",
-                    "time": "1.5 horas",
-                    "buttonText": "Abrir curso",
-                    "desirable": true
-                },
+                },                
                 {
                     "name": "Documentação Git",
                     "link": "https://git-scm.com/docs",
-                    "buttonText": "Ver documentação"
+                    "buttonText": "Documentação"
                 },
                 {
                     "name": "Aprenda a usar branch \"jogando\"",
@@ -130,7 +110,7 @@
                 {
                     "name": "Documentação HTTP",
                     "link": "https://developer.mozilla.org/pt-BR/docs/Web/HTTP",
-                    "buttonText": "Ver documentação"
+                    "buttonText": "Documentação"
                 }
             ]
         },

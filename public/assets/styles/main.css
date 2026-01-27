@@ -51,31 +51,195 @@ body {
 .container {
     display: flex;
     height: 100vh;
+    overflow-x: visible; /* allow elements (collapse button) to overflow without being clipped */
 }
 
 .sidebar {
-    width: 340px;
+    width: 340px; /* reverted to previous value */
     background: var(--bg-secondary);
     backdrop-filter: blur(10px);
     border-right: 1px solid var(--border-color);
     overflow-y: auto;
+    overflow-x: visible; /* allow collapse button to be visible outside */
     padding: 30px 20px;
-    transition: transform 0.3s ease, background 0.3s ease;
+    padding-bottom: 100px; /* reserve space for fixed footer */
+    transition: transform 0.3s ease, background 0.3s ease, width 0.3s ease;
+    position: relative; /* needed for absolute footer and collapse button */
+    display: flex;
+    flex-direction: column;
 }
 
+.tree-section {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding-bottom: 16px !important; /* Espaço para afastar o fim do menu da linha do footer */
+    padding-right: 12px; /* Espaço mínimo para a barra de rolagem não colar no conteúdo */
+    margin-bottom: 0;
+}
+
+/* Collapsed behavior: restore to original narrow rail */
 .sidebar.collapsed {
-    transform: translateX(-100%);
+    transform: translateX(0);
+    width: 68px; /* reverted to previous value */
+    padding: 20px 10px;
+    position: relative;
+}
+
+/* Simplify collapse button: no vertical translate, only small horizontal hover and rotation when collapsed */
+.sidebar-collapse-btn {
+    position: relative;
+    margin-left: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+    transition: background 0.15s ease;
+    z-index: 999;
+    align-self: center; /* ensure vertical centering in header */
+    top: auto;
+    right: auto;
+}
+
+.sidebar-collapse-btn:hover {
+    background: var(--accent-bg);
+}
+
+/* When collapsed: only rotate the button container; avoid moving it to the top */
+.sidebar.collapsed .sidebar-collapse-btn {
+    right: 12px;
+    background: var(--accent-bg);
+}
+
+/* Do not rotate the inner icon via CSS (let JS change the icon glyph) */
+.sidebar.collapsed #sidebarCollapseBtnIcon {
+    transform: none !important;
+}
+
+/* Default (expanded) - button sits outside the sidebar edge */
+.sidebar-collapse-btn {
+    position: relative; /* inside header */
+    top: 0;
+    right: 0;
+    margin-left: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+    transition: transform 0.2s ease, background 0.15s ease, right 0.25s ease;
+    z-index: 999;
+}
+
+.sidebar-collapse-btn:hover {
+    background: var(--accent-bg);
+}
+
+/* When collapsed, move button inside the rail (to the left) and change icon rotation */
+.sidebar.collapsed .sidebar-collapse-btn {
+    right: 12px;
+    background: var(--accent-bg);
+}
+
+.sidebar.collapsed .sidebar-title,
+.sidebar.collapsed .theme-toggle,
+.sidebar.collapsed .tree-section .area-button,
+.sidebar.collapsed .tree-section .team-button,
+.sidebar.collapsed .tree-section .tracks-tree,
+.sidebar.collapsed .empty-text,
+.sidebar.collapsed .sidebar-header-text {
+    display: none;
+}
+
+/* When collapsed, keep icons visible for a compact rail */
+.sidebar.collapsed .area-button {
+    padding: 10px 8px;
+    border-radius: 8px;
+    justify-content: center;
+}
+
+/* Sidebar footer fixed at bottom */
+.sidebar-footer {
     position: absolute;
-    z-index: 10;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    font-size: 0.85em;
+    text-align: center;
+    padding: 12px 8px 14px 8px;
+    z-index: 20;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 -2px 12px 0 rgba(0,0,0,0.04);
+    margin: 0;
+}
+
+/* Hide full footer text when collapsed (keep small indicator if needed) */
+.sidebar.collapsed .sidebar-footer {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0; /* hide text to avoid overflow in narrow rail */
+}
+
+/* Adjust main content when sidebar is collapsed to take more space */
+.sidebar + .main-content {
+    transition: margin-left 0.3s ease, padding 0.3s ease;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: 68px; /* compensate for original rail width */
+}
+
+/* Make courses grid animate width changes when sidebar toggles */
+.courses-grid {
+    transition: all 0.3s ease;
 }
 
 .sidebar-header {
     margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0; /* removed bottom padding since no divider */
+    border-bottom: none !important;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
+    padding-top: 12px; /* added */
+    padding-bottom: 12px; /* keep balanced padding */
+}
+
+/* Ensure no horizontal divider/line is ever shown inside the sidebar */
+.sidebar-header {
+    border-bottom: none !important; /* explicit override */
+}
+
+/* Hide any <hr> that might be added inside the sidebar */
+.sidebar hr {
+    display: none !important;
+    height: 0 !important;
+    border: none !important;
+}
+
+/* Remove bottom borders from common sidebar children that could create a horizontal line
+   while keeping their overall borders intact (we only clear bottom edge) */
+.sidebar .sidebar-header,
+.sidebar .tree-section,
+.sidebar .area-item,
+.sidebar .team-item {
+    border-bottom: none !important;
 }
 
 .sidebar-header-text {
@@ -123,8 +287,33 @@ body {
     border-color: var(--accent-color);
 }
 
+/* Style the new global theme toggle fixed at top-right */
+.global-theme-toggle {
+    position: fixed;
+    top: 14px;
+    right: 18px;
+    z-index: 2000;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-bg);
+    border: 1px solid var(--border-color);
+    color: var(--accent-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.global-theme-toggle:hover {
+    background: var(--accent-hover);
+    color: var(--bg-primary);
+}
+
 .tree-section {
     margin-bottom: 10px;
+    padding-bottom: 120px; /* extra space so items cannot scroll under the footer */
 }
 
 .area-item {
@@ -337,6 +526,7 @@ body {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5 colunas fixas */
     gap: 16px; /* Gap um pouco menor para caber melhor */
+    transition: all 0.3s ease;
 }
 
 /* Responsivo: ajusta conforme tamanho da tela */
@@ -562,6 +752,15 @@ body {
 
     .toggle-sidebar-btn {
         display: block;
+    }
+
+    /* Hide the round collapse button when sidebar is collapsed on mobile */
+    .sidebar.collapsed .sidebar-collapse-btn {
+        display: none !important;
+    }
+    /* Hide the ☰ button when sidebar is expanded on mobile */
+    .sidebar:not(.collapsed) ~ .toggle-sidebar-btn {
+        display: none !important;
     }
 
     .main-content {
@@ -940,7 +1139,7 @@ body {
 
 .markdown-content li {
     margin-bottom: 8px;
-    color: var(--text-secondary);
+    color: var (--text-secondary);
 }
 
 .markdown-content code {
@@ -991,7 +1190,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    border: 1px solid var(--border-color);
+    border: 1px solid var (--border-color);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -1007,7 +1206,7 @@ body {
 .markdown-content td {
     padding: 12px;
     border-top: 1px solid var(--border-color);
-    color: var(--text-secondary);
+    color: var (--text-secondary);
 }
 
 .markdown-content tr:hover {
