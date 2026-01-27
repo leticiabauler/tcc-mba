@@ -1,0 +1,40 @@
+{
+    "id": "guideline",
+    "title": "Guia Didático – Organização Ágil, Papéis e Cerimônias",
+    "description": "Aprenda Git com exemplos práticos do dia a dia",
+    "duration": "1.5 horas",
+    "author": "Letícia Marques Bauler",
+    "lastUpdate": "2026-01-14",
+    "sections": [
+        {
+            "id": "guideline",
+            "title": "Introdução",
+            "type": "markdown",
+            "content": "guideline.md"
+        },
+                {
+            "id": "organization-teams",
+            "title": "Organização das Equipes",
+            "type": "markdown",
+            "content": "organization-teams.md"
+        },
+                {
+            "id": "ceremonies",
+            "title": "Cerimônias",
+            "type": "markdown",
+            "content": "ceremonies.md"
+        },
+                {
+            "id": "specifications.md",
+            "title": "Direcionamentos e Especificações",
+            "type": "markdown",
+            "content": "specifications.md"
+        },
+                {
+            "id": "general-guidelines",
+            "title": "Diretrizes Gerais",
+            "type": "markdown",
+            "content": "general-guidelines.md"
+        }
+    ]
+}

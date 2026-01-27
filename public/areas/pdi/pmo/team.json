@@ -1,36 +1,28 @@
 {
     "name": "PMO",
+    "description": "Uma única trilha demonstrando todas as combinações de cursos (internos e externos) para servir de referência.",
+    "icon": "",
+    "color": "#3F51B5",
     "tracks": [
         {
-            "id": "pdi-pmo-data-base",
-            "name": "Banco de dados",
-            "onboarding": true,
+            "id": "agile",
+            "name": "Exemplos",
+            "description": "Contém exemplos: interno (1 seção), interno (multi-seções), com/sem tempo, obrigatório/desejável, externo com botão e externo sem botão.",
             "icon": "",
-            "description": "Banco de dados Postgres SQL",
+            "onboarding": false,
+            "desirable": false,
+            "color": "#607D8B",
             "courses": [
                 {
-                    "name": "Banco de dados Postgres",
-                    "link": "https://www.youtube.com/watch?v=Z_SPrzlT4Fc&list=PLucm8g_ezqNoAkYKXN_zWupyH6hQCAwxY%20",
-                    "onboarding": true
-                }
-            ]
-        },
-        {
-            "id": "pdi-pmo-git",
-            "name": "Git",
-            "icon": "",
-            "description": "Gitlab",
-            "onboarding": true,
-            "courses": [
-                {
-                    "name": "Documentação Git",
-                    "link": "https://git-scm.com/docs",
-                    "onboarding": true
-                },
-                {
-                    "name": "Curso de Git - O que é um Sistema de Controle de Versão",
-                    "link": "https://www.youtube.com/watch?v=YnVnFanIAzU&list=PLucm8g_ezqNq0dOgug6paAkH0AQSJPlIe",
-                    "onboarding": true
+                    "type": "manual",
+                    "name": "Guia Didático – Organização Ágil, Papéis e Cerimônias",
+                    "description": "Este material serve como base para trilhas de treinamento, com o objetivo de nivelar o conhecimento das equipes, padronizar práticas e dar clareza sobre papéis, responsabilidades, cerimônias e diretrizes de trabalho.",
+                    "courseId": "git-pratico",
+                    "coursePath": "areas/pdi/pmo/cursos/guideline",
+                    "time": "",
+                    "onboarding": false,
+                    "desirable": true,
+                    "buttonText": "Ver curso"
                 }
             ]
         }
