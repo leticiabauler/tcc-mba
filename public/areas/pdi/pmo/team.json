@@ -6,8 +6,8 @@
     "tracks": [
         {
             "id": "agile",
-            "name": "Exemplos",
-            "description": "Contém exemplos: interno (1 seção), interno (multi-seções), com/sem tempo, obrigatório/desejável, externo com botão e externo sem botão.",
+            "name": "Funções e Atribuições",
+            "description": "Este material serve como um guia para treinamento e consulta, principalmente tratando da reestruturação das equipes.",
             "icon": "",
             "onboarding": false,
             "desirable": false,
@@ -16,7 +16,7 @@
                 {
                     "type": "manual",
                     "name": "Guia Didático – Organização Ágil, Papéis e Cerimônias",
-                    "description": "Este material serve como base para trilhas de treinamento, com o objetivo de nivelar o conhecimento das equipes, padronizar práticas e dar clareza sobre papéis, responsabilidades, cerimônias e diretrizes de trabalho.",
+                    "description": "Curso introdutório sobre a organização ágil da seção, abordando papéis, cerimônias, responsabilidades e diretrizes de trabalho, com foco em alinhamento entre equipes, padronização de processos e qualidade nas entregas.",
                     "courseId": "git-pratico",
                     "coursePath": "areas/pdi/pmo/cursos/guideline",
                     "time": "",
