@@ -33,7 +33,7 @@ As cerimônias organizam o trabalho, promovem alinhamento e garantem acompanhame
 
 ### Cerimônias de Gestão
 
-#### PO Sync
+#### PDI Sync
 
 * Atualização dos projetos;
 * Discussão de riscos e impactos;
